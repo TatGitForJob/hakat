@@ -13,11 +13,21 @@ type HomePage struct {
 }
 
 type TimeDataInput struct {
-	Name string
+	Direction string
+	Date      string
+	Class     string
+	//Number    string
+	StartDate string
+	EndDate   string
 }
 
 type TimeDataOutput struct {
-	Result string
+	Direction string
+	Date      string
+	Class     string
+	//Number    string
+	StartDate string
+	EndDate   string
 }
 
 func getTime(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -26,9 +36,19 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	if err != nil {
 		return
 	}
-	fmt.Println(data.Name)
+	fmt.Println("\n" + data.Direction)
+	fmt.Println("\n" + data.Date)
+	fmt.Println("\n" + data.Class)
+	//fmt.Println("\n" + data.Number)
+	fmt.Println("\n" + data.StartDate)
+	fmt.Println("\n" + data.EndDate)
+
 	var responseData TimeDataOutput
-	responseData.Result = data.Name
+	responseData.Direction = data.Direction
+	responseData.Date = data.Date
+	responseData.Class = data.Class
+	responseData.StartDate = data.StartDate
+	responseData.EndDate = data.EndDate
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(responseData)
 	return

@@ -2,10 +2,10 @@
 <html lang="ru">
 <head>
     <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <div class="container">
                 <div class="header__title">
                     <div class="header__logo">
-                        <img src="../img/logo/Plane2.png" alt="" />
+                        <img src="../img/logo/Plane2.png" alt=""/>
                     </div>
                     <div class="header__h1">
                         <h1>
@@ -55,16 +55,11 @@
         <div class="content">
             <div class="container">
                 <div class="subtitle">Динамика бронирования</div>
-                <form
-                        action="#"
-                        method="post"
-                        enctype="multipart/form-data"
-                        class="information"
-                >
+                <form>
                     <div class="direction">
                         <div class="direction__text">Выберите направление рейса:</div>
                         <div class="select-wrapper">
-                            <select tabindex="1" name="direction" class="direction__list">
+                            <select id="Direction" tabindex="1" name="direction" class="direction__list">
                                 <option value="moscow-sochi">Москва-Сочи</option>
                                 <option value="sochi-moscow">Сочи-Москва</option>
                                 <option value="moscow-astrakhan">Москва-Астрахань</option>
@@ -74,22 +69,22 @@
                     </div>
                     <div class="date">
                         <div class="date__text">Выберите дату рейса:</div>
-                        <input
-                                tabindex="2"
-                                class="date__calendar"
-                                type="date"
-                                name="flight-date"
-                                value="2017-01-01"
-                                min="2017-01-01"
-                                max="2019-12-31"
+                        <label for="Date"></label><input id="Date"
+                                                         tabindex="2"
+                                                         class="date__calendar"
+                                                         type="date"
+                                                         name="flight-date"
+                                                         value="2017-01-01"
+                                                         min="2017-01-01"
+                                                         max="2019-12-31"
                         />
                     </div>
                     <div class="booking-class">
                         <div class="booking-class__text">
-                            Выберите ласс бронирования:
+                            Выберите Класс бронирования:
                         </div>
                         <div class="select-wrapper">
-                            <select tabindex="3" class="booking-class__list">
+                            <select id="Class" tabindex="3" class="booking-class__list">
                                 <optgroup label="Первый класс:">
                                     <option value="Option 1 F">F — стандартный тариф</option>
                                     <option value="Option 2 А">
@@ -165,9 +160,10 @@
                                 max="2019-12-31"
                         />
                     </div>
-                    <button tabindex="6" class="button" type="submit">
+                    <button id="ask-Button" tabindex="6" class="button" type="submit">
                         Показать график
                     </button>
+                    <h3 id="output"></h3>
                 </form>
                 <div class="graph">
                     <div class="graph__text">График динамики бронирования</div>
@@ -178,5 +174,6 @@
     </main>
 </div>
 <script src="../js/script.js"></script>
+<script src="../js/sendToBack.js"></script>
 </body>
 </html>
