@@ -2,6 +2,9 @@
 const wrapper = document.querySelectorAll(".wrapper");
 const iconMenu = document.querySelectorAll(".icon-menu");
 const menuBody = document.querySelectorAll(".menu__body");
+
+
+
 // Добавляем класс "loaded" к элементу "wrapper"
 wrapper.forEach(function (item) {
   item.classList.add("loaded");
