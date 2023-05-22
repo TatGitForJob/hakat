@@ -420,6 +420,28 @@ select:focus {
           box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a;
 }
 
+.flight-selection {
+  margin: 15px 0 0 0;
+}
+
+.flight-selection__text {
+  border: none;
+  outline: none;
+  padding: 5px 15px 5px 15px;
+  margin: 5px 0 0 0;
+  color: #ffffff;
+  background-color: #02458d;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.flight-selection__text:hover {
+  color: #f37b09;
+}
+.flight-selection__text:focus {
+  -webkit-box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a;
+          box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a;
+}
+
 .period__text {
   margin: 15px 0 0 0;
 }
@@ -479,6 +501,6 @@ select:focus {
           box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a, 0px 0px 0px 1px #38577a;
 }
 
-.graph__text {
+.graph__timetable {
   margin: 40px 0 40px 0;
 }
