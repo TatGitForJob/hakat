@@ -19,9 +19,9 @@ func (p program) Start(s service.Service) error {
 	router.ServeFiles("/js/*filepath", http.Dir("js"))
 	router.ServeFiles("/css/*filepath", http.Dir("css"))
 	router.ServeFiles("/img/*filepath", http.Dir("img"))
-	router.GET("/", serveHomepage)
-	//router.HandlerFunc("/",serveAuth)
-
+	router.GET("/", authHandler)
+	router.POST("/", authHandler)
+	router.GET("/homepage", serveHomepage)
 	router.POST("/get_time", getTime)
 
 	err := http.ListenAndServe(":3000", router)

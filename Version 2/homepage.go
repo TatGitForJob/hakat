@@ -8,6 +8,15 @@ import (
 	"net/http"
 )
 
+type User struct {
+	Login    string
+	Password string
+}
+
+type UserOutput struct {
+	Text string `json:"message"`
+}
+
 type TimeDataInput struct {
 	Direction string
 	Date      string
@@ -32,12 +41,12 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	if err != nil {
 		return
 	}
-	fmt.Println("\n" + data.Direction)
-	fmt.Println("\n" + data.Date)
-	fmt.Println("\n" + data.Class)
+	fmt.Println(data.Direction)
+	fmt.Println(data.Date)
+	fmt.Println(data.Class)
 	//fmt.Println("\n" + data.Number)
-	fmt.Println("\n" + data.StartDate)
-	fmt.Println("\n" + data.EndDate)
+	fmt.Println(data.StartDate)
+	fmt.Println(data.EndDate)
 
 	var responseData TimeDataOutput
 	responseData.Direction = data.Direction
@@ -51,6 +60,31 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 }
 
 func serveHomepage(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	tmpl := template.Must(template.ParseFiles("html/auth.html"))
+	tmpl := template.Must(template.ParseFiles("html/homepage.html"))
 	_ = tmpl.Execute(writer, nil)
+}
+
+func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	if request.Method == "POST" {
+		var data User
+		err := json.NewDecoder(request.Body).Decode(&data)
+		if err != nil {
+			return
+		}
+		fmt.Println(data.Login)
+		fmt.Println(data.Password)
+
+		var responseData UserOutput
+		if data.Login == "admin@admin" && data.Password == "admin" {
+			fmt.Println("true")
+			responseData.Text = "Корректно"
+		} else {
+			responseData.Text = "Некорректно"
+		}
+		writer.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(writer).Encode(responseData)
+	} else if request.Method == "GET" {
+		tmpl := template.Must(template.ParseFiles("html/auth.html"))
+		_ = tmpl.Execute(writer, nil)
+	}
 }
