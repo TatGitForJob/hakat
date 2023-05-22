@@ -8,10 +8,6 @@ import (
 	"net/http"
 )
 
-type HomePage struct {
-	Time string
-}
-
 type TimeDataInput struct {
 	Direction string
 	Date      string
@@ -55,7 +51,6 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 }
 
 func serveHomepage(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	var homepage HomePage
-	tmpl := template.Must(template.ParseFiles("html/homepage.html"))
-	_ = tmpl.Execute(writer, homepage)
+	tmpl := template.Must(template.ParseFiles("html/auth.html"))
+	_ = tmpl.Execute(writer, nil)
 }
