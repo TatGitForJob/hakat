@@ -3,8 +3,6 @@ const wrapper = document.querySelectorAll(".wrapper");
 const iconMenu = document.querySelectorAll(".icon-menu");
 const menuBody = document.querySelectorAll(".menu__body");
 
-
-
 // Добавляем класс "loaded" к элементу "wrapper"
 wrapper.forEach(function (item) {
   item.classList.add("loaded");
@@ -23,16 +21,27 @@ iconMenu.forEach(function (item) {
   });
 });
 
-//Класс ibg для создания background в родители img? чтобы всталять изображения прямо в HTML
+// График
+const ctx = document.getElementById("myChart");
 
-function ibg() {
-  let ibg = document.querySelectorAll(".ibg");
-  for (var i = 0; i < ibg.length; i++) {
-    if (ibg[i].querySelector("img")) {
-      ibg[i].style.backgroundImage = `url("${ibg[i]
-        .querySelector("img")
-        .getAttribute("src")}")`;
-    }
-  }
-}
-ibg();
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: [1, 2, 3, 4, 5, 6],
+    datasets: [
+      {
+        label: "График динамики бронирования",
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1,
+        backgroundColor: "#02458d",
+      },
+    ],
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  },
+});
