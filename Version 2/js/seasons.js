@@ -21,12 +21,76 @@ iconMenu.forEach(function (item) {
   });
 });
 
+// // График
+// const ctx = document.getElementById("myChart");
+
+// new Chart(ctx, {
+//   data: {
+//     labels: [1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6,1, 2, 3, 4, 5, 6],
+//     datasets: [
+//       {
+//         type: "line",
+//         label: "Line Dataset",
+//         data: [9, 12, 2, 3, 1, 2],
+//         backgroundColor: ["rgba(255,0,0, 0.5)"],
+//         borderColor: ["red"],
+//         borderWidth: 4,
+//         fill: true,
+//         tension: 0.4,
+//         borderJoinStyle: "bevel",
+//       },
+//       {
+//         type: "bar",
+//         label: "График сезонного спроса по классам бронирования",
+//         data: [12, 19, 3, 5, 2, 3],
+//         borderWidth: 1,
+//         backgroundColor: ["#02458d", "grey", "green"],
+//       },
+//     ],
+//   },
+//   options: {
+//     //  scales: {
+//     //    y: {
+//     //      beginAtZero: true,
+//     //    },
+//     //  },
+//     plugins: {
+// 			legend: { display: true, position: "bottom" },
+// 			title: {
+// 			display: true,
+// 			text: "Сезонность для прогнозов (рейсы Москва-Сочи)",
+// 			},
+//       zoom: {
+//         zoom: {
+//           wheel: {
+//             enabled: true,
+// 				mode:'y',
+//           },
+//         },
+//       },
+//     },
+//   },
+// });
 // График
 const dates = Array.from({ length: 365 }, (_, i) => `День ${i + 1}`);
 // setup
 const data = {
   labels: dates,
   datasets: [
+    {
+      type: "line",
+      label: "Line Dataset",
+      data: [
+        9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1,
+        2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2,
+      ],
+      backgroundColor: ["rgba(255,0,0, 0.5)"],
+      borderColor: ["red"],
+      borderWidth: 4,
+      fill: true,
+      tension: 0.4,
+      borderJoinStyle: "bevel",
+    },
     {
       label: "График динамики бронирования",
       data: [
@@ -61,7 +125,10 @@ const config = {
           },
         },
       },
-      legend: { display: false, position: "bottom" },
+      legend: {
+        display: false,
+        position: "left",
+      },
       title: {
         display: false,
         text: "Сезонность для прогнозов (рейсы Москва-Сочи)",

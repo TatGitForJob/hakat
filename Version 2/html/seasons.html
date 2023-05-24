@@ -2,10 +2,10 @@
 <html lang="ru">
   <head>
     <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/seasons.css" />
     <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width" />
   </head>
 
   <body>
@@ -60,8 +60,8 @@
         </header>
         <div class="content">
           <div class="container">
-            <div class="subtitle">Динамика бронирования</div>
-            <form onsubmit="return false;">
+            <div class="subtitle">Сезонность спроса</div>
+            <form>
               <div class="direction">
                 <div class="direction__text">Выберите направление рейса:</div>
                 <div class="select-wrapper">
@@ -78,38 +78,12 @@
                   </select>
                 </div>
               </div>
-              <div class="date">
-                <div class="date__text">Выберите дату рейса:</div>
-                <label for="Date"></label
-                ><input
-                  id="Date"
-                  tabindex="2"
-                  class="date__calendar"
-                  type="date"
-                  name="flight-date"
-                  value="2017-01-01"
-                  min="2017-01-01"
-                  max="2019-12-31"
-                />
-              </div>
-              <div class="flight-selection">
-                <div class="flight-selection__subtitle">
-                  Введите номер рейса:
-                </div>
-                <input
-                  tabindex="3"
-                  placeholder="Введите текст"
-                  name="flight-selection"
-                  type="text"
-                  class="flight-selection__text"
-                />
-              </div>
               <div class="booking-class">
                 <div class="booking-class__text">
                   Выберите класс бронирования:
                 </div>
                 <div class="select-wrapper">
-                  <select id="Class" tabindex="4" class="booking-class__list">
+                  <select id="Class" tabindex="2" class="booking-class__list">
                     <optgroup label="Первый класс:">
                       <option value="Option 1 F">F — стандартный тариф</option>
                       <option value="Option 2 А">
@@ -168,7 +142,7 @@
                   type="date"
                   id="start-date"
                   name="start-date"
-                  value="2019-12-01"
+                  value="2019-01-01"
                   min="2017-01-01"
                   max="2019-12-31"
                 />
@@ -185,14 +159,16 @@
                   max="2019-12-31"
                 />
               </div>
-              <button id="ask-Button" tabindex="8" class="button" type="submit">
+              <button id="ask-Button" tabindex="3" class="button" type="submit">
                 Показать график
               </button>
               <h3 id="output"></h3>
             </form>
-            <div class="graph">График динамики бронирования:</div>
+            <div class="graph">
+              График сезонного спроса по классам бронирования:
+            </div>
             <div class="chart">
-              <div class="chart__text">Спрос</div>
+              <div class="chart__text">Бронирование</div>
               <div class="chart__box">
                 <div class="chart__container">
                   <div class="chart__body">
@@ -213,7 +189,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="../js/script.js"></script>
+    <script src="../js/seasons.js"></script>
     <script src="../js/sendToBack.js"></script>
   </body>
 </html>

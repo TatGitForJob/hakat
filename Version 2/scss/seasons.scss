@@ -375,7 +375,7 @@ select:focus {
 	}
 }
 .button {
-	margin: 30px 0 40px 0;
+	margin: 30px 0 0 0;
 	color: #ffffff;
 	background-color: #02458d;
 	width: auto;
@@ -424,7 +424,7 @@ select:focus {
 	justify-content: center; /* значение изменено */
 	height: 100%;
 	position: absolute; /* новое свойство */
-	left: -30px; /* новое свойство */
+	left: -55px; /* новое свойство */
 	color: #38577a;
 	font-weight: 600;
 }
