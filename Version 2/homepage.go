@@ -21,18 +21,14 @@ type TimeDataInput struct {
 	Direction string
 	Date      string
 	Class     string
-	//Number    string
+	Number    string
 	StartDate string
 	EndDate   string
 }
 
 type TimeDataOutput struct {
-	Direction string
-	Date      string
-	Class     string
-	//Number    string
-	StartDate string
-	EndDate   string
+	Count string
+	Date  string
 }
 
 func getTime(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -44,16 +40,47 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	fmt.Println(data.Direction)
 	fmt.Println(data.Date)
 	fmt.Println(data.Class)
-	//fmt.Println("\n" + data.Number)
+	fmt.Println(data.Number)
 	fmt.Println(data.StartDate)
 	fmt.Println(data.EndDate)
 
 	var responseData TimeDataOutput
-	responseData.Direction = data.Direction
-	responseData.Date = data.Date
-	responseData.Class = data.Class
-	responseData.StartDate = data.StartDate
-	responseData.EndDate = data.EndDate
+	responseData.Count = "даты здесь"
+	responseData.Date = "дата тут"
+	/*
+		db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		var query string
+		var args []interface{}
+		query = "SELECT id, name, cit, univ, dates, format, link, photo FROM %s"
+
+		rows, err := db.Query(query, args...)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		var events []Event
+		for rows.Next() {
+			var u Event
+			err := rows.Scan(&u.ID, &u.Name, &u.City, &u.Univ, &u.Dates, &u.Format, &u.Link, &u.Photo)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			events = append(events, u)
+		}
+		err = rows.Err()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	*/
+
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(responseData)
 	return
