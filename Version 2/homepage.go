@@ -63,6 +63,10 @@ func serveHomepage(writer http.ResponseWriter, request *http.Request, params htt
 	tmpl := template.Must(template.ParseFiles("html/homepage.html"))
 	_ = tmpl.Execute(writer, nil)
 }
+func serveSeasons(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	tmpl := template.Must(template.ParseFiles("html/seasons.html"))
+	_ = tmpl.Execute(writer, nil)
+}
 
 func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	if request.Method == "POST" {

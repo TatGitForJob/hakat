@@ -22,6 +22,7 @@ func (p program) Start(s service.Service) error {
 	router.GET("/", authHandler)
 	router.POST("/", authHandler)
 	router.GET("/homepage", serveHomepage)
+	router.GET("/seasons", serveSeasons)
 	router.POST("/get_time", getTime)
 
 	err := http.ListenAndServe(":3000", router)
