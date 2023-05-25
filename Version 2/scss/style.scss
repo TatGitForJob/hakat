@@ -340,7 +340,18 @@ select:focus {
 
 .flight-selection__subtitle {
 }
-.flight-selection__text {
+.flight-selection__list {
+	moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	&::-ms-expand {
+		display: none;
+	}
+	border: none;
+	outline: none;
+	padding: 5px 35px 5px 15px;
+	width: 100px;
+
 	border: none;
 	outline: none;
 	padding: 5px 15px 5px 15px;

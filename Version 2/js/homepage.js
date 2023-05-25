@@ -78,3 +78,12 @@ if (totalLabels > 30) {
   const newWidth = 1100 + (totalLabels - 30) * 40;
   chartBody.style.width = `${newWidth}px`;
 }
+
+// Обработчик событий на присваивание значения даты рейса
+// на окончания периуда вывода графика
+const date1 = document.getElementById("date");
+const date2 = document.getElementById("end-date");
+
+date1.addEventListener("input", () => {
+  date2.value = date1.value;
+});
