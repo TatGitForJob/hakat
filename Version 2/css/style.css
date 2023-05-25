@@ -432,10 +432,9 @@ select:focus {
   border: none;
   outline: none;
   padding: 5px 35px 5px 15px;
-  width: 100px;
+  max-width: 350px;
   border: none;
   outline: none;
-  padding: 5px 15px 5px 15px;
   margin: 5px 0 0 0;
   color: #ffffff;
   background-color: #02458d;

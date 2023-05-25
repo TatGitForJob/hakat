@@ -79,11 +79,27 @@ if (totalLabels > 30) {
   chartBody.style.width = `${newWidth}px`;
 }
 
-// Обработчик событий на присваивание значения даты рейса
-// на окончания периуда вывода графика
+// Обработчик событий на присваивание даты рейса на период вывода графика
 const date1 = document.getElementById("date");
 const date2 = document.getElementById("end-date");
+const date3 = document.getElementById("start-date");
+const flightSelection = document.getElementById("Number");
 
 date1.addEventListener("input", () => {
-  date2.value = date1.value;
+  date2.max = date1.value;
+  date3.max = date1.value;
+
+  // Очищаем предыдущие элементы option, если они были
+  flightSelection.innerHTML = "";
+
+  // Получаем новые данные из базы данных (замените этот код соответствующим кодом для базы данных)
+  const newData = ["Option 1", "Option 2", "Option 3"];
+
+  // Создаем новые элементы option и добавляем их в элемент flightSelection
+  newData.forEach((optionValue) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = optionValue;
+    optionElement.text = optionValue;
+    flightSelection.appendChild(optionElement);
+  });
 });
