@@ -27,39 +27,81 @@ const dates = Array.from({ length: 365 }, (_, i) => `День ${i + 1}`);
 const data = {
   labels: dates,
   datasets: [
+    //  График Спроса А
     {
       type: "line",
-      label: "Line Dataset",
+      label: "Спрос А",
       data: [
         9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1,
         2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2,
       ],
-      backgroundColor: ["rgba(255,0,0, 0.5)"],
-      borderColor: ["red"],
-      borderWidth: 4,
-      fill: true,
-      tension: 0.4,
-      borderJoinStyle: "bevel",
+      pointRadius: 0,
+      order: 5,
     },
+    //  График Спроса Б
     {
-      label: "График динамики бронирования",
+      type: "line",
+      label: "Спрос Б",
       data: [
         18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9,
         18, 12, 6, 9, 12, 3, 9,
       ],
-      backgroundColor: "#02458d",
-      borderColor: "#02458d",
-      borderWidth: 1,
+      backgroundColor: ["rgba(123, 121, 209, 1)"],
+      borderColor: ["rgba(123, 121, 209, 1)"],
+      borderWidth: 4,
+      fill: false,
+      tension: 0.1,
+      borderJoinStyle: "bevel",
+      order: 1,
+      pointRadius: 0,
+    },
+    //  График Ожидаемое бронирование Б
+    {
+      type: "line",
+      label: "Ожидаемое бронирование Б",
+      data: [
+        6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12,
+        6, 9, 12, 3, 9,
+      ],
+      backgroundColor: ["rgba(255, 0, 0, 1)"],
+      borderColor: ["rgba(255, 0, 0, 1)"],
+      borderWidth: 4,
+      fill: false,
+      tension: 0.1,
+      borderJoinStyle: "bevel",
+      order: 1,
+      pointRadius: 0,
+    },
+    //  График Ожидаемое бронирование AБ
+    {
+      type: "scatter",
+      label: "Ожидаемое бронирование AБ",
+      data: [3, 4, 4, 3, 4, 23, 4, 2, 34],
+      backgroundColor: ["rgba(133, 127, 127, 1)"],
+      borderColor: ["rgba(133, 127, 127, 1)"],
+      borderWidth: 4,
+      fill: false,
+      tension: 0.1,
+      borderJoinStyle: "bevel",
+      order: 1,
     },
   ],
 };
 
 // config
 const config = {
-  type: "bar",
+  type: "line",
   data,
+
   options: {
+    backgroundColor: ["rgba(41, 39, 156, 1)"],
+    borderColor: ["rgba(41, 39, 156, 1)"],
+    borderWidth: 4,
+    fill: true,
+    tension: 0.4,
+    borderJoinStyle: "bevel",
     maintainAspectRatio: false,
+
     scales: {
       y: {
         beginAtZero: true,
@@ -81,7 +123,7 @@ const config = {
       },
       title: {
         display: false,
-        text: "Сезонность для прогнозов (рейсы Москва-Сочи)",
+        text: "Спрос А)",
       },
     },
   },
