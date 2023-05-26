@@ -80,13 +80,13 @@ if (totalLabels > 30) {
 const date1 = document.getElementById("date");
 const date2 = document.getElementById("end-date");
 const date3 = document.getElementById("start-date");
+const direction=document.getElementById("Direction")
 const flightSelection = document.getElementById("Number");
 
 date1.addEventListener("input", () => {
     date2.max = date1.value;
     date3.max = date1.value;
     date2.value = date1.value;
-    //   Устfнавливаем значение date3 на дату ровно на один месяц раньше, чем выбранная дата в date1
     const oneMonthEarlier = new Date(date1.value);
     oneMonthEarlier.setMonth(oneMonthEarlier.getMonth() - 1);
     date3.value = oneMonthEarlier.toISOString().slice(0, 10);
@@ -120,3 +120,35 @@ date1.addEventListener("input", () => {
         console.log(error);
     });
 });
+
+askButton=document.getElementById("ask-Button")
+clas=document.getElementById("Class")
+number=document.getElementById("Number")
+output=document.getElementById("output")
+
+
+askButton.addEventListener("click", function () {
+    let data = {
+        Direction:direction.value,
+        Date:date1.value,
+        Class:clas.value,
+        Number:number.value,
+        StartDate:date2.value,
+        EndDate:date3.value
+    };
+    // Number:
+    fetch("/get_time", {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+    }).then((response) => {
+        response.text().then(function (data) {
+            let result = JSON.parse(data);
+            output.textContent="вывод"+result["Count"]+result["Date"]
+        });
+    }).catch(() => {
+    });
+})
