@@ -1,11 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"html/template"
+	"log"
 	"net/http"
+	"strings"
 )
 
 type User struct {
@@ -15,6 +18,15 @@ type User struct {
 
 type UserOutput struct {
 	Text string `json:"message"`
+}
+
+type Response struct {
+	Rows []string `json:"rows"`
+}
+
+type ClassOut struct {
+	Direction string
+	Date      string
 }
 
 type TimeDataInput struct {
@@ -83,6 +95,47 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(responseData)
+	return
+}
+
+func getClass(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	var data ClassOut
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		return
+	}
+	fmt.Println("Приняли дату и направление")
+	fmt.Println(data.Direction)
+	fmt.Println(data.Date)
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/postgres?sslmode=disable")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	newDate := strings.ReplaceAll(data.Date, "-", "")
+	name := data.Direction + newDate
+
+	rows, err := db.Query("SELECT DISTINCT FLT_NUM FROM $1", name)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	var response Response
+	for rows.Next() {
+		var field3 string
+		err := rows.Scan(&field3)
+		if err != nil {
+			http.Error(writer, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		response.Rows = append(response.Rows, field3)
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(writer).Encode(response)
 	return
 }
 

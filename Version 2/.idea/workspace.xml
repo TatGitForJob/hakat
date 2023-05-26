@@ -8,7 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/homepage.go" beforeDir="false" afterPath="$PROJECT_DIR$/homepage.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/seasons.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/seasons.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/homepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/sendToBack.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/sendToBack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
