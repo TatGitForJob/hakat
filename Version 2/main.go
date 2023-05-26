@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"github.com/kardianos/service"
+	_ "github.com/lib/pq"
 	"net/http"
 )
 

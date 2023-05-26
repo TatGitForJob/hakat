@@ -107,18 +107,21 @@ func getClass(writer http.ResponseWriter, request *http.Request, params httprout
 	fmt.Println("Приняли дату и направление")
 	fmt.Println(data.Direction)
 	fmt.Println(data.Date)
-	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/postgres?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	newDate := strings.ReplaceAll(data.Date, "-", "")
-	name := data.Direction + newDate
-
-	rows, err := db.Query("SELECT DISTINCT FLT_NUM FROM $1", name)
+	firstUpdateDate := strings.ReplaceAll(data.Date, "-", "")
+	secondUpdateDate := firstUpdateDate[6:] + firstUpdateDate[4:6] + firstUpdateDate[:4]
+	name := data.Direction + secondUpdateDate
+	fmt.Println(name)
+	insertQuery := fmt.Sprintf(`SELECT DISTINCT flt_num FROM %s`, name)
+	rows, err := db.Query(insertQuery)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		fmt.Println("ошибка при запросе")
 		return
 	}
 	defer rows.Close()
@@ -129,8 +132,10 @@ func getClass(writer http.ResponseWriter, request *http.Request, params httprout
 		err := rows.Scan(&field3)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusInternalServerError)
+			fmt.Println("ошибка при скане из данных базы")
 			return
 		}
+		fmt.Println(field3)
 		response.Rows = append(response.Rows, field3)
 	}
 
