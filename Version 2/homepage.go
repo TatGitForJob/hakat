@@ -8,7 +8,10 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"sort"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type User struct {
@@ -43,6 +46,51 @@ type TimeDataOutput struct {
 	Date  []string `json:"date"`
 }
 
+type Dinamica struct {
+	date  string
+	count string
+	dtd   int
+}
+type Sorting []Dinamica
+
+func (s Sorting) Len() int {
+	return len(s)
+}
+
+func (s Sorting) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s Sorting) Less(i, j int) bool {
+	return s[i].dtd > s[j].dtd // сравниваем в обратном порядке для сортировки по убыванию
+}
+
+func ProcessDinamica(date, startdate, enddate string, dinamic []Dinamica) []int {
+	result := make([]int, 0)
+	layout := "2006-01-02"
+	t1, _ := time.Parse(layout, date)
+	t2, _ := time.Parse(layout, startdate)
+	t3, _ := time.Parse(layout, enddate)
+	fmt.Println(int(t1.Sub(t2).Hours() / 24))
+
+	// Вычисление разницы в днях между датами
+	daysstart := int(t1.Sub(t2).Hours() / 24)
+	dayssend := int(t1.Sub(t3).Hours() / 24)
+	sort.Sort(Sorting(dinamic))
+	for _, item := range dinamic {
+		if item.dtd <= daysstart && item.dtd >= dayssend {
+
+			i, err := strconv.Atoi(item.count)
+			if err != nil {
+				fmt.Println("превращение в инт попизде")
+			}
+			result = append(result, i)
+			fmt.Println(i)
+		}
+	}
+	return result
+}
+
 func getTime(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	var data TimeDataInput
 	err := json.NewDecoder(request.Body).Decode(&data)
@@ -56,8 +104,6 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	fmt.Println(data.Number)
 	fmt.Println(data.StartDate)
 	fmt.Println(data.EndDate)
-
-	var response TimeDataOutput
 
 	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
 	if err != nil {
@@ -77,7 +123,7 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 		return
 	}
 	defer rows.Close()
-
+	dinamica := make([]Dinamica, 0)
 	for rows.Next() {
 		var sdats, passbk, dtd string
 		err := rows.Scan(&sdats, &passbk, &dtd)
@@ -87,11 +133,17 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 			return
 		}
 		fmt.Println(sdats + " " + passbk + " " + dtd)
-		response.Count = append(response.Count, passbk)
+		i, err := strconv.Atoi(dtd)
+		if err != nil {
+			fmt.Println("жопа с приведение к int")
+		}
+		dinamica = append(dinamica, Dinamica{date: sdats, count: passbk, dtd: i})
 	}
+	aaa := ProcessDinamica(data.Date, data.EndDate, data.StartDate, dinamica)
+	fmt.Println(aaa)
 
 	writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(writer).Encode(response)
+	_ = json.NewEncoder(writer).Encode(aaa)
 	return
 }
 

@@ -20,7 +20,6 @@ iconMenu.forEach(function (item) {
     document.body.classList.toggle("lock");
   });
 });
-
 // График
 const dates = Array.from({ length: 365 }, (_, i) => `День ${i + 1}`);
 const data = {
@@ -139,9 +138,12 @@ askButton.addEventListener("click", function () {
   })
     .then((response) => {
       response.text().then(function (data) {
-        let result = JSON.parse(data);
-        output.textContent = "вывод" + result["Count"] + result["Date"];
+        output.textContent = JSON.parse(data);
+        let array=JSON.parse(data)
+        //Айдар, засунуть array в данные графика как-то надо................
+
+
       });
     })
-    .catch(() => {});
+    .catch((error) => {console.log(error)});
 });
