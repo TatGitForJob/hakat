@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
-    <link rel="stylesheet" href="../css/seasons.css" />
+    <link rel="stylesheet" href="../css/profil1.css" />
     <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -61,7 +61,7 @@
         <div class="content">
           <div class="container">
             <div class="subtitle">Профиль спроса по вылетевшим рейсам</div>
-            <form>
+            <form onsubmit="return false;">
               <div class="direction">
                 <div class="direction__text">Выберите направление рейса:</div>
                 <div class="select-wrapper">
@@ -147,7 +147,8 @@
               </div>
               <div class="period">
                 <div class="period__text">
-                  Выберите период для просмотра динамики бронирования:
+                  Выберите период для просмотра профиля спроса по вылетевшим
+                  рейсам:
                 </div>
                 <label for="start-date">От:</label>
                 <input

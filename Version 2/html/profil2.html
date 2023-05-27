@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
-    <link rel="stylesheet" href="../css/seasons.css" />
+    <link rel="stylesheet" href="../css/profil2.css" />
     <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -60,7 +60,7 @@
         </header>
         <div class="content">
           <div class="container">
-            <div class="subtitle">Сезонность спроса</div>
+            <div class="subtitle">Профиль спроса для продаваемых рейсов</div>
             <form onsubmit="return false;">
               <div class="direction">
                 <div class="direction__text">Выберите направление рейса:</div>
@@ -97,7 +97,7 @@
                 <div class="select-wrapper">
                   <select id="Class" tabindex="2" class="booking-class__list">
                     <optgroup label="Первый класс:">
-                      <option value="O">O — стандартный тариф</option>
+                      <option value="F">F — стандартный тариф</option>
                       <option value="А">А — первый класс со скидкой</option>
                       <option value="P">
                         P — премиальный первый класс, наиболее комфортный
@@ -147,7 +147,8 @@
               </div>
               <div class="period">
                 <div class="period__text">
-                  Выберите период для просмотра сезонности спроса:
+                  Выберите период для просмотра профиля спроса для продаваемых
+                  рейсов:
                 </div>
                 <label for="start-date">От:</label>
                 <input
@@ -156,7 +157,7 @@
                   type="date"
                   id="start-date"
                   name="start-date"
-                  value="2019-01-01"
+                  value="2019-12-01"
                   min="2017-01-01"
                   max="2019-12-31"
                 />
@@ -178,11 +179,9 @@
               </button>
               <h3 id="output"></h3>
             </form>
-            <div class="graph">
-              График сезонного спроса по классам бронирования:
-            </div>
+            <div class="graph">График прогноза спроса:</div>
             <div class="chart">
-              <div class="chart__text">Бронирование</div>
+              <div class="chart__text">Спрос</div>
               <div class="chart__box">
                 <div class="chart__container">
                   <div class="chart__body">
@@ -203,7 +202,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="../js/seasons.js"></script>
+    <script src="../js/profil2.js"></script>
     <script src="../js/sendToBack.js"></script>
     <script src="../js/hrefs.js"></script>
   </body>
