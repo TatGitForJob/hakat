@@ -47,7 +47,6 @@ type TimeDataOutput struct {
 }
 
 type Dinamica struct {
-	date  string
 	count string
 	dtd   int
 }
@@ -115,7 +114,7 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	secondUpdateDate := firstUpdateDate[6:] + firstUpdateDate[4:6] + firstUpdateDate[:4]
 	name := data.Direction + secondUpdateDate
 	fmt.Println(name)
-	insertQuery := fmt.Sprintf(`SELECT sdat_s, pass_bk, dtd  FROM %s WHERE flt_num = '%s' AND seg_class_code = '%s'`, name, data.Number, data.Class)
+	insertQuery := fmt.Sprintf(`SELECT pass_bk, dtd  FROM %s WHERE flt_num = '%s' AND seg_class_code = '%s'`, name, data.Number, data.Class)
 	rows, err := db.Query(insertQuery)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
@@ -125,19 +124,19 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	defer rows.Close()
 	dinamica := make([]Dinamica, 0)
 	for rows.Next() {
-		var sdats, passbk, dtd string
-		err := rows.Scan(&sdats, &passbk, &dtd)
+		var passbk, dtd string
+		err := rows.Scan(&passbk, &dtd)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusInternalServerError)
 			fmt.Println("ошибка при скане из данных базы")
 			return
 		}
-		fmt.Println(sdats + " " + passbk + " " + dtd)
+		fmt.Println(passbk + " " + dtd)
 		i, err := strconv.Atoi(dtd)
 		if err != nil {
 			fmt.Println("жопа с приведение к int")
 		}
-		dinamica = append(dinamica, Dinamica{date: sdats, count: passbk, dtd: i})
+		dinamica = append(dinamica, Dinamica{count: passbk, dtd: i})
 	}
 	aaa := ProcessDinamica(data.Date, data.EndDate, data.StartDate, dinamica)
 	fmt.Println(aaa)
