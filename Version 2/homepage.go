@@ -39,8 +39,8 @@ type TimeDataInput struct {
 }
 
 type TimeDataOutput struct {
-	Count string
-	Date  string
+	Count []string `json:"count"`
+	Date  []string `json:"date"`
 }
 
 func getTime(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
@@ -49,6 +49,7 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	if err != nil {
 		return
 	}
+	fmt.Println("НАЖАЛИ НА ГРАФИК ДИНАМИКИ")
 	fmt.Println(data.Direction)
 	fmt.Println(data.Date)
 	fmt.Println(data.Class)
@@ -56,45 +57,41 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 	fmt.Println(data.StartDate)
 	fmt.Println(data.EndDate)
 
-	var responseData TimeDataOutput
-	responseData.Count = "даты здесь"
-	responseData.Date = "дата тут"
-	/*
-		db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer db.Close()
+	var response TimeDataOutput
 
-		var query string
-		var args []interface{}
-		query = "SELECT id, name, cit, univ, dates, format, link, photo FROM %s"
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
-		rows, err := db.Query(query, args...)
+	firstUpdateDate := strings.ReplaceAll(data.Date, "-", "")
+	secondUpdateDate := firstUpdateDate[6:] + firstUpdateDate[4:6] + firstUpdateDate[:4]
+	name := data.Direction + secondUpdateDate
+	fmt.Println(name)
+	insertQuery := fmt.Sprintf(`SELECT sdat_s, pass_bk, dtd  FROM %s WHERE flt_num = '%s' AND seg_class_code = '%s'`, name, data.Number, data.Class)
+	rows, err := db.Query(insertQuery)
+	if err != nil {
+		http.Error(writer, err.Error(), http.StatusInternalServerError)
+		fmt.Println(err)
+		return
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var sdats, passbk, dtd string
+		err := rows.Scan(&sdats, &passbk, &dtd)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(writer, err.Error(), http.StatusInternalServerError)
+			fmt.Println("ошибка при скане из данных базы")
 			return
 		}
-
-		var events []Event
-		for rows.Next() {
-			var u Event
-			err := rows.Scan(&u.ID, &u.Name, &u.City, &u.Univ, &u.Dates, &u.Format, &u.Link, &u.Photo)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			events = append(events, u)
-		}
-		err = rows.Err()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	*/
+		fmt.Println(sdats + " " + passbk + " " + dtd)
+		response.Count = append(response.Count, passbk)
+	}
 
 	writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(writer).Encode(responseData)
+	_ = json.NewEncoder(writer).Encode(response)
 	return
 }
 
