@@ -23,7 +23,6 @@ iconMenu.forEach(function (item) {
 
 // График
 const dates = Array.from({ length: 365 }, (_, i) => `День ${i + 1}`);
-// setup
 const data = {
   labels: dates,
   datasets: [
@@ -88,7 +87,6 @@ const data = {
   ],
 };
 
-// config
 const config = {
   type: "line",
   data,
@@ -108,15 +106,6 @@ const config = {
       },
     },
     plugins: {
-      zoom: {
-        zoom: {
-          wheel: {
-            enabled: true,
-            mode: "y",
-            modifierKey: "ctrl",
-          },
-        },
-      },
       legend: {
         display: false,
         position: "left",
@@ -129,7 +118,6 @@ const config = {
   },
 };
 
-// render init block
 const myChart = new Chart(document.getElementById("myChart"), config);
 const chartBody = document.querySelector(".chart__body");
 const totalLabels = myChart.data.labels.length; // typo was fixed here
@@ -137,3 +125,12 @@ if (totalLabels > 30) {
   const newWidth = 1100 + (totalLabels - 30) * 40;
   chartBody.style.width = `${newWidth}px`;
 }
+// Обработчик событий на выбор даты , чтобы даты "От" и "До" не противоречили друг-другу
+const data1 = document.getElementById("start-date");
+const data2 = document.getElementById("end-date");
+data1.addEventListener("input", () => {
+  data2.min = data1.value;
+});
+data2.addEventListener("input", () => {
+  data1.max = data2.value;
+});
