@@ -87,7 +87,7 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	if err != nil {
 		return
 	}
-	fmt.Println("НАЖАЛИ НА ГРАФИК ДИНАМИКИ")
+	fmt.Println("НАЖАЛИ НА ГРАФИК СЕЗОННОСТИ")
 	fmt.Println(data.Direction)
 	fmt.Println(data.Class)
 	fmt.Println(data.Number)
@@ -119,7 +119,6 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 			fmt.Println("ошибка при скане из данных базы")
 			return
 		}
-		fmt.Println(dd + " " + pass_dep)
 		i, err := strconv.Atoi(pass_dep)
 		if err != nil {
 			fmt.Println("жопа с приведение к int")
@@ -130,10 +129,9 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 		t1, _ := time.Parse(layout, ddNewNew)
 		t2, _ := time.Parse(layout, data.StartDate)
 		t3, _ := time.Parse(layout, data.EndDate)
-		fmt.Println(data.StartDate)
-		fmt.Println(data.EndDate + "wwwwwwwwwwwwwwwwwwwww")
 		if int(t3.Sub(t1).Hours()/24) >= 0 && int(t1.Sub(t2).Hours()/24) >= 0 {
-			seasoning = append(seasoning, Seasoning{count: i, dd: int(t1.Sub(t2).Hours() / 24)})
+			fmt.Println(dd + " " + pass_dep)
+			seasoning = append(seasoning, Seasoning{count: i, dd: int(t1.Sub(t2).Hours() / 24), date: ddNewNew})
 		}
 	}
 	sort.Sort(Sort_Seasons(seasoning))

@@ -25,6 +25,7 @@ askButton = document.getElementById("ask-Button");
 clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
+const direction = document.getElementById("Direction");
 
 askButton.addEventListener("click", function () {
   let data = {
@@ -123,7 +124,6 @@ const config = {
 const date1 = document.getElementById("date");
 const date2 = document.getElementById("end-date");
 const date3 = document.getElementById("start-date");
-const direction = document.getElementById("Direction");
 const flightSelection = document.getElementById("Number");
 
 date1.addEventListener("input", () => {
