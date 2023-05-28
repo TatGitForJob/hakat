@@ -27,10 +27,7 @@ const data = {
   datasets: [
     {
       label: "График динамики бронирования",
-      data: [
-        18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9,
-        18, 12, 6, 9, 12, 3, 9,
-      ],
+      data: newArray,
       backgroundColor: "#02458d",
       borderColor: "#02458d",
       borderWidth: 1,
@@ -117,6 +114,9 @@ askButton = document.getElementById("ask-Button");
 clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
+//   Обьявляю переменную
+let array;
+let newArray = array.slice();
 
 askButton.addEventListener("click", function () {
   let data = {
@@ -128,6 +128,7 @@ askButton.addEventListener("click", function () {
     EndDate: date3.value,
   };
   // Number:
+
   fetch("/get_time", {
     headers: {
       Accept: "application/json",
@@ -139,11 +140,11 @@ askButton.addEventListener("click", function () {
     .then((response) => {
       response.text().then(function (data) {
         output.textContent = JSON.parse(data);
-        let array=JSON.parse(data)
+        array = JSON.parse(data);
         //Айдар, засунуть array в данные графика как-то надо................
-
-
       });
     })
-    .catch((error) => {console.log(error)});
+    .catch((error) => {
+      console.log(error);
+    });
 });
