@@ -87,6 +87,13 @@ func ProcessDinamica(date, startdate, enddate string, dinamic []Dinamica) []int 
 			fmt.Println(i)
 		}
 	}
+	if len(result) <= 1 {
+		return result
+	}
+	for i := len(result) - 1; i > 0; i-- {
+		result[i] = result[i] - result[i-1]
+	}
+
 	return result
 }
 
@@ -200,7 +207,14 @@ func serveSeasons(writer http.ResponseWriter, request *http.Request, params http
 	tmpl := template.Must(template.ParseFiles("html/seasons.html"))
 	_ = tmpl.Execute(writer, nil)
 }
-
+func serveProfi1(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	tmpl := template.Must(template.ParseFiles("html/profil1.html"))
+	_ = tmpl.Execute(writer, nil)
+}
+func serveProfi2(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	tmpl := template.Must(template.ParseFiles("html/profil2.html"))
+	_ = tmpl.Execute(writer, nil)
+}
 func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	if request.Method == "POST" {
 		var data User
