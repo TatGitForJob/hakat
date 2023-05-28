@@ -1,27 +1,29 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"log"
 	"net/http"
-	"sort"
-	"strconv"
-	"strings"
-	"time"
 )
 
 type SeasonInput struct {
 	Direction string
-	Date      string
 	Class     string
 	Number    string
 	StartDate string
 	EndDate   string
 }
 
+type SeasonClassInput struct {
+	Direction string
+}
+
+type SeasonClassOutput struct {
+	Rows []string `json:"rows"`
+}
+
+/*
 type TimeDataOutput struct {
 	Count []string `json:"count"`
 	Date  []string `json:"date"`
@@ -77,7 +79,41 @@ func ProcessDinamica(date, startdate, enddate string, dinamic []Dinamica) []int 
 
 	return result
 }
+*/
 
+func getSeasonClass(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	var data SeasonClassInput
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		return
+	}
+	fmt.Println("Приняли дату для сезонов")
+	fmt.Println(data.Direction)
+
+	response := []string{}
+	if data.Direction == "aersvo" {
+		response = []string{"1117", "1119", "1121", "1123", "1125", "1127", "1129", "1131",
+			"1133", "1135", "1137", "1139", "1141", "1151", "1153", "1741", "1771", "1773",
+			"1781", "1783", "1785", "1787", "1789", "1791", "1793", "1795", "1797", "1799",
+			"2957", "2981", "2985", "6180", "6182", "6186"}
+	}
+	if data.Direction == "svoaer" {
+		response = []string{"1116", "1118", "1120", "1122", "1124", "1126", "1128", "1130",
+			"1132", "1134", "1136", "1138", "1140", "1148", "1152", "1740", "1772", "1780", "1782", "1784", "1786", "1788", "1790", "1792", "1794", "1796", "1798", "2980", "2990", "6179", "6181", "6185"}
+	}
+	if data.Direction == "svoasf" {
+		response = []string{"1172", "1174", "1642"}
+	}
+	if data.Direction == "asfsvo" {
+		response = []string{"1173", "1175", "1643", "1775"}
+	}
+
+	writer.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(writer).Encode(response)
+	return
+}
+
+/*
 func getSeason(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	var data SeasonInput
 	err := json.NewDecoder(request.Body).Decode(&data)
@@ -86,7 +122,6 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	}
 	fmt.Println("НАЖАЛИ НА ГРАФИК ДИНАМИКИ")
 	fmt.Println(data.Direction)
-	fmt.Println(data.Date)
 	fmt.Println(data.Class)
 	fmt.Println(data.Number)
 	fmt.Println(data.StartDate)
@@ -133,3 +168,4 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	_ = json.NewEncoder(writer).Encode(aaa)
 	return
 }
+*/
