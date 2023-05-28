@@ -136,8 +136,17 @@ data2.addEventListener("input", () => {
 });
 // Обработчик событий на первоначальный выбор направления,а после номер рейса
 const direction = document.getElementById("Direction");
-const flightSelection = document.getElementById("flightSelection");
-direction.addEventListener("change", () => {
-  flightSelection.readOnly = false;
-  flightSelection.value = "";
-});
+const flightSelection = document.getElementById("Number");
+direction
+  .addEventListener("change", () => {
+    flightSelection.innerHTML = "";
+    data.rows.forEach((optionValue) => {
+      const optionElement = document.createElement("option");
+      optionElement.value = optionValue;
+      optionElement.text = optionValue;
+      flightSelection.appendChild(optionElement);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });

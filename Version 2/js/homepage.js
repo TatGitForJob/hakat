@@ -49,7 +49,6 @@ askButton.addEventListener("click", function () {
       response.text().then(function (data) {
         output.textContent = JSON.parse(data);
         let array = JSON.parse(data);
-        //Айдар, засунуть array в данные графика как-то надо................
         // Обновление данных графика
         myChart.data.datasets[0].data = array;
         myChart.update();

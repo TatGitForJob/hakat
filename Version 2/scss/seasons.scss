@@ -340,16 +340,24 @@ select:focus {
 
 .flight-selection__subtitle {
 }
-.flight-selection__text {
+.flight-selection__list {
+	moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+	&::-ms-expand {
+		display: none;
+	}
 	border: none;
 	outline: none;
-	padding: 5px 15px 5px 15px;
+	padding: 5px 35px 5px 15px;
+	max-width: 350px;
+
+	border: none;
+	outline: none;
 	margin: 5px 0 0 0;
 	color: #ffffff;
 	background-color: #02458d;
 	border-radius: 20px;
-	width: 100%;
-	max-width: 280px;
 	&:hover {
 		color: #f37b09;
 	}

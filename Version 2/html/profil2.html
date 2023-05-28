@@ -80,18 +80,18 @@
               </div>
               <div class="flight-selection">
                 <div class="flight-selection__subtitle">
-                  Введите номер рейса:
+                  Выберите номер рейса:
                 </div>
-                <input
-                  id="flightSelection"
-                  tabindex="3"
-                  placeholder="Введите текст"
-                  name="flight-selection"
-                  type="text"
-                  class="flight-selection__text"
-                  value="Сначала выберите направление рейса"
-                  readonly
-                />
+                <div class="select-wrapper">
+                  <select
+                    class="flight-selection__list"
+                    tabindex="3"
+                    name="flight-selection"
+                    id="Number"
+                  >
+                    <option value="">Сначала выберите дату рейса</option>
+                  </select>
+                </div>
               </div>
               <div class="booking-class">
                 <div class="booking-class__text">
