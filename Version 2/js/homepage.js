@@ -80,7 +80,8 @@ askButton.addEventListener("click", function () {
   const dates = getDates(startDate, endDate);
   myChart.data.labels = dates;
   myChart.update();
-});
+	});
+
 // График
 const dates1 = Array.from({ length: 150 }, (_, i) => `День ${i + 1}`);
 
@@ -166,7 +167,7 @@ date1.addEventListener("input", () => {
 });
 const myChart = new Chart(document.getElementById("myChart"), config);
 const chartBody = document.querySelector(".chart__body");
-const totalLabels = myChart.data.labels.length; // typo was fixed here
+const totalLabels = myChart.data.labels.length;
 if (totalLabels > 30) {
   const newWidth = 1100 + (totalLabels - 30) * 40;
   chartBody.style.width = `${newWidth}px`;
