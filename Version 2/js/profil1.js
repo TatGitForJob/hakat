@@ -134,8 +134,44 @@ data1.addEventListener("input", () => {
 data2.addEventListener("input", () => {
     data1.max = data2.value;
 });
-// Обработчик событий на первоначальный выбор направления,а после номер рейса
+
+
+askButton = document.getElementById("ask-Button");
+clas = document.getElementById("Class");
+number = document.getElementById("Number");
+output = document.getElementById("output");
 const direction = document.getElementById("Direction");
+
+askButton.addEventListener("click", function () {
+    let data = {
+        Direction: direction.value,
+        Class: clas.value,
+        Number: number.value,
+        StartDate: data1.value,
+        EndDate: data2.value,
+    };
+    // Number:
+
+    fetch("/get_profile", {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(data),
+    }).then((response) => {
+        response.text().then(function (data) {
+            output.textContent = JSON.parse(data);
+            let array = JSON.parse(data);//Aйдар !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // Обновление данных графика
+            myChart.data.datasets[0].data = array;
+            myChart.update();
+        });
+    });
+});
+
+
+// Обработчик событий на первоначальный выбор направления,а после номер рейса
 const flightSelection = document.getElementById("Number");
 direction.addEventListener("change", () => {
     flightSelection.innerHTML = "";
