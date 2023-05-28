@@ -27,7 +27,7 @@ const data = {
   datasets: [
     {
       label: "График динамики бронирования",
-      data: newArray,
+      data: [1, 2, 3, 4, 5],
       backgroundColor: "#02458d",
       borderColor: "#02458d",
       borderWidth: 1,
@@ -115,8 +115,6 @@ clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
 //   Обьявляю переменную
-let array;
-let newArray = array.slice();
 
 askButton.addEventListener("click", function () {
   let data = {
@@ -140,8 +138,11 @@ askButton.addEventListener("click", function () {
     .then((response) => {
       response.text().then(function (data) {
         output.textContent = JSON.parse(data);
-        array = JSON.parse(data);
+        let array = JSON.parse(data);
         //Айдар, засунуть array в данные графика как-то надо................
+        // Обновление данных графика
+        myChart.data.datasets[0].data = array;
+        myChart.update();
       });
     })
     .catch((error) => {
