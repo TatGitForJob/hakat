@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-type SeasonInput struct {
+type ProfileInput struct {
 	Direction string
 	Class     string
 	Number    string
@@ -21,68 +21,27 @@ type SeasonInput struct {
 	EndDate   string
 }
 
-type SeasonClassInput struct {
-	Direction string
-}
-
-type TimeDataOutput struct {
-	Count []string `json:"count"`
-	Date  []string `json:"date"`
-}
-
-type Seasoning struct {
+type Profiling struct {
 	dd    int
 	date  string
 	count int
 }
-type Sort_Seasons []Seasoning
+type Sort_Profiling []Profiling
 
-func (s Sort_Seasons) Len() int {
+func (s Sort_Profiling) Len() int {
 	return len(s)
 }
 
-func (s Sort_Seasons) Swap(i, j int) {
+func (s Sort_Profiling) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
-func (s Sort_Seasons) Less(i, j int) bool {
+func (s Sort_Profiling) Less(i, j int) bool {
 	return s[i].dd < s[j].dd // сравниваем в обратном порядке для сортировки по убыванию
 }
 
-func getSeasonClass(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	var data SeasonClassInput
-	err := json.NewDecoder(request.Body).Decode(&data)
-	if err != nil {
-		return
-	}
-	fmt.Println("Приняли дату для сезонов")
-	fmt.Println(data.Direction)
-
-	response := []string{}
-	if data.Direction == "aersvo" {
-		response = []string{"1117", "1119", "1121", "1123", "1125", "1127", "1129", "1131",
-			"1133", "1135", "1137", "1139", "1141", "1151", "1153", "1741", "1771", "1773",
-			"1781", "1783", "1785", "1787", "1789", "1791", "1793", "1795", "1797", "1799",
-			"2957", "2981", "2985", "6180", "6182", "6186"}
-	}
-	if data.Direction == "svoaer" {
-		response = []string{"1116", "1118", "1120", "1122", "1124", "1126", "1128", "1130",
-			"1132", "1134", "1136", "1138", "1140", "1148", "1152", "1740", "1772", "1780", "1782", "1784", "1786", "1788", "1790", "1792", "1794", "1796", "1798", "2980", "2990", "6179", "6181", "6185"}
-	}
-	if data.Direction == "svoasf" {
-		response = []string{"1172", "1174", "1642"}
-	}
-	if data.Direction == "asfsvo" {
-		response = []string{"1173", "1175", "1643", "1775"}
-	}
-
-	writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(writer).Encode(response)
-	return
-}
-
-func getSeason(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	var data SeasonInput
+func getProfile(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	var data ProfileInput
 	err := json.NewDecoder(request.Body).Decode(&data)
 	if err != nil {
 		return
@@ -94,7 +53,7 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	fmt.Println(data.StartDate)
 	fmt.Println(data.EndDate)
 
-	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/postgres?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/profiles?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -110,7 +69,7 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 		return
 	}
 	defer rows.Close()
-	seasoning := make([]Seasoning, 0)
+	seasoning := make([]Profiling, 0)
 	for rows.Next() {
 		var dd, pass_dep string
 		err := rows.Scan(&dd, &pass_dep)
