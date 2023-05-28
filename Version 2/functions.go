@@ -1,10 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
+	"log"
 	"net/http"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type SeasonInput struct {
@@ -19,67 +25,29 @@ type SeasonClassInput struct {
 	Direction string
 }
 
-type SeasonClassOutput struct {
-	Rows []string `json:"rows"`
-}
-
-/*
 type TimeDataOutput struct {
 	Count []string `json:"count"`
 	Date  []string `json:"date"`
 }
 
-type Dinamica struct {
-	count string
-	dtd   int
+type Seasoning struct {
+	dd    int
+	date  string
+	count int
 }
-type Sorting []Dinamica
+type Sort_Seasons []Seasoning
 
-func (s Sorting) Len() int {
+func (s Sort_Seasons) Len() int {
 	return len(s)
 }
 
-func (s Sorting) Swap(i, j int) {
+func (s Sort_Seasons) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
-func (s Sorting) Less(i, j int) bool {
-	return s[i].dtd > s[j].dtd // сравниваем в обратном порядке для сортировки по убыванию
+func (s Sort_Seasons) Less(i, j int) bool {
+	return s[i].dd < s[j].dd // сравниваем в обратном порядке для сортировки по убыванию
 }
-
-func ProcessDinamica(date, startdate, enddate string, dinamic []Dinamica) []int {
-	result := make([]int, 0)
-	layout := "2006-01-02"
-	t1, _ := time.Parse(layout, date)
-	t2, _ := time.Parse(layout, startdate)
-	t3, _ := time.Parse(layout, enddate)
-	fmt.Println(int(t1.Sub(t2).Hours() / 24))
-
-	// Вычисление разницы в днях между датами
-	daysstart := int(t1.Sub(t2).Hours() / 24)
-	dayssend := int(t1.Sub(t3).Hours() / 24)
-	sort.Sort(Sorting(dinamic))
-	for _, item := range dinamic {
-		if item.dtd <= daysstart && item.dtd >= dayssend {
-
-			i, err := strconv.Atoi(item.count)
-			if err != nil {
-				fmt.Println("превращение в инт попизде")
-			}
-			result = append(result, i)
-			fmt.Println(i)
-		}
-	}
-	if len(result) <= 1 {
-		return result
-	}
-	for i := len(result) - 1; i > 0; i-- {
-		result[i] = result[i] - result[i-1]
-	}
-
-	return result
-}
-*/
 
 func getSeasonClass(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	var data SeasonClassInput
@@ -113,7 +81,6 @@ func getSeasonClass(writer http.ResponseWriter, request *http.Request, params ht
 	return
 }
 
-/*
 func getSeason(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	var data SeasonInput
 	err := json.NewDecoder(request.Body).Decode(&data)
@@ -127,17 +94,15 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	fmt.Println(data.StartDate)
 	fmt.Println(data.EndDate)
 
-	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/postgres?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer db.Close()
 
-	firstUpdateDate := strings.ReplaceAll(data.Date, "-", "")
-	secondUpdateDate := firstUpdateDate[6:] + firstUpdateDate[4:6] + firstUpdateDate[:4]
-	name := data.Direction + secondUpdateDate
+	name := data.Direction + data.Number
 	fmt.Println(name)
-	insertQuery := fmt.Sprintf(`SELECT pass_bk, dtd  FROM %s WHERE flt_num = '%s' AND seg_class_code = '%s'`, name, data.Number, data.Class)
+	insertQuery := fmt.Sprintf(`SELECT dd, pass_dep  FROM %s WHERE seg_class_code = '%s'`, name, data.Class)
 	rows, err := db.Query(insertQuery)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
@@ -145,27 +110,36 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 		return
 	}
 	defer rows.Close()
-	dinamica := make([]Dinamica, 0)
+	seasoning := make([]Seasoning, 0)
 	for rows.Next() {
-		var passbk, dtd string
-		err := rows.Scan(&passbk, &dtd)
+		var dd, pass_dep string
+		err := rows.Scan(&dd, &pass_dep)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusInternalServerError)
 			fmt.Println("ошибка при скане из данных базы")
 			return
 		}
-		fmt.Println(passbk + " " + dtd)
-		i, err := strconv.Atoi(dtd)
+		fmt.Println(dd + " " + pass_dep)
+		i, err := strconv.Atoi(pass_dep)
 		if err != nil {
 			fmt.Println("жопа с приведение к int")
 		}
-		dinamica = append(dinamica, Dinamica{count: passbk, dtd: i})
+		layout := "2006-01-02"
+		ddNew := strings.ReplaceAll(dd, ".", "")
+		ddNewNew := ddNew[4:] + "-" + ddNew[2:4] + "-" + ddNew[:2]
+		t1, _ := time.Parse(layout, ddNewNew)
+		t2, _ := time.Parse(layout, data.StartDate)
+		t3, _ := time.Parse(layout, data.EndDate)
+		fmt.Println(data.StartDate)
+		fmt.Println(data.EndDate + "wwwwwwwwwwwwwwwwwwwww")
+		if int(t3.Sub(t1).Hours()/24) >= 0 && int(t1.Sub(t2).Hours()/24) >= 0 {
+			seasoning = append(seasoning, Seasoning{count: i, dd: int(t1.Sub(t2).Hours() / 24)})
+		}
 	}
-	aaa := ProcessDinamica(data.Date, data.EndDate, data.StartDate, dinamica)
-	fmt.Println(aaa)
+	sort.Sort(Sort_Seasons(seasoning))
+	fmt.Println(seasoning)
 
 	writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(writer).Encode(aaa)
+	_ = json.NewEncoder(writer).Encode(seasoning)
 	return
 }
-*/

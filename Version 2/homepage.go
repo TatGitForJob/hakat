@@ -41,11 +41,6 @@ type TimeDataInput struct {
 	EndDate   string
 }
 
-type TimeDataOutput struct {
-	Count []string `json:"count"`
-	Date  []string `json:"date"`
-}
-
 type Dinamica struct {
 	count string
 	dtd   int
