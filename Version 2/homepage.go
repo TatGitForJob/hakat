@@ -207,13 +207,19 @@ func serveSeasons(writer http.ResponseWriter, request *http.Request, params http
 	tmpl := template.Must(template.ParseFiles("html/seasons.html"))
 	_ = tmpl.Execute(writer, nil)
 }
-func serveProfi1(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+func servePro(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	tmpl := template.Must(template.ParseFiles("html/profil1.html"))
-	_ = tmpl.Execute(writer, nil)
+	err := tmpl.Execute(writer, nil)
+	if err != nil {
+		fmt.Println("не переводит на профил1")
+	}
 }
-func serveProfi2(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+func serveProTwo(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	tmpl := template.Must(template.ParseFiles("html/profil2.html"))
-	_ = tmpl.Execute(writer, nil)
+	err := tmpl.Execute(writer, nil)
+	if err != nil {
+		fmt.Println("не переводит на профил1")
+	}
 }
 func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	if request.Method == "POST" {

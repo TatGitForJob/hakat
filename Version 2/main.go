@@ -24,8 +24,8 @@ func (p program) Start(s service.Service) error {
 	router.POST("/", authHandler)
 	router.GET("/homepage", serveHomepage)
 	router.GET("/seasons", serveSeasons)
-	router.GET("/pro", serveProfi1)
-	router.GET("/proTwo", serveProfi2)
+	router.GET("/pro", servePro)
+	router.GET("/profile", serveProTwo)
 	router.POST("/get_time", getTime)
 	router.POST("/get_class", getClass)
 
