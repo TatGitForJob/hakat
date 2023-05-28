@@ -20,24 +20,88 @@ iconMenu.forEach(function (item) {
     document.body.classList.toggle("lock");
   });
 });
-// График
-const dates = Array.from({ length: 365 }, (_, i) => `День ${i + 1}`);
-const data = {
-  labels: dates,
-  datasets: [
-    {
-      label: "График динамики бронирования",
-      data: [1, 2, 3, 4, 5],
-      backgroundColor: "#02458d",
-      borderColor: "#02458d",
-      borderWidth: 1,
+
+askButton = document.getElementById("ask-Button");
+clas = document.getElementById("Class");
+number = document.getElementById("Number");
+output = document.getElementById("output");
+
+askButton.addEventListener("click", function () {
+  let data = {
+    Direction: direction.value,
+    Date: date1.value,
+    Class: clas.value,
+    Number: number.value,
+    StartDate: date2.value,
+    EndDate: date3.value,
+  };
+  // Number:
+
+  fetch("/get_time", {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-  ],
-};
+    method: "POST",
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      response.text().then(function (data) {
+        output.textContent = JSON.parse(data);
+        let array = JSON.parse(data);
+        //Айдар, засунуть array в данные графика как-то надо................
+        // Обновление данных графика
+        myChart.data.datasets[0].data = array;
+        myChart.update();
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  //  Добавляем в график период для просмотра динамики бронирования
+  let startDate = date3.value;
+  let endDate = date2.value;
+
+  function getDates(startDate, endDate) {
+    const dates = [];
+    let currentDate = new Date(startDate);
+    const endDateTime = new Date(endDate).getTime();
+
+    while (currentDate.getTime() <= endDateTime) {
+      let day = ("0" + currentDate.getDate()).slice(-2);
+      let month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+      let year = currentDate.getFullYear();
+      let formattedDate = `${day}-${month}-${year}`;
+      dates.push(formattedDate);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+    return dates;
+  }
+  getDates(startDate, endDate);
+  const dates = getDates(startDate, endDate);
+  myChart.data.labels = dates;
+  myChart.update();
+});
+// График
+const dates1 = Array.from({ length: 150 }, (_, i) => `День ${i + 1}`);
 
 const config = {
   type: "bar",
-  data,
+  data: {
+    labels: dates1,
+    datasets: [
+      {
+        label: "График динамики бронирования",
+        data: [
+          1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3,
+          4, 5,
+        ],
+        backgroundColor: "#02458d",
+        borderColor: "#02458d",
+        borderWidth: 1,
+      },
+    ],
+  },
   options: {
     maintainAspectRatio: false,
     scales: {
@@ -54,14 +118,6 @@ const config = {
     },
   },
 };
-
-const myChart = new Chart(document.getElementById("myChart"), config);
-const chartBody = document.querySelector(".chart__body");
-const totalLabels = myChart.data.labels.length; // typo was fixed here
-if (totalLabels > 30) {
-  const newWidth = 1100 + (totalLabels - 30) * 40;
-  chartBody.style.width = `${newWidth}px`;
-}
 
 // Обработчик событий на присваивание даты рейса на период вывода графика
 const date1 = document.getElementById("date");
@@ -109,43 +165,10 @@ date1.addEventListener("input", () => {
       console.log(error);
     });
 });
-
-askButton = document.getElementById("ask-Button");
-clas = document.getElementById("Class");
-number = document.getElementById("Number");
-output = document.getElementById("output");
-//   Обьявляю переменную
-
-askButton.addEventListener("click", function () {
-  let data = {
-    Direction: direction.value,
-    Date: date1.value,
-    Class: clas.value,
-    Number: number.value,
-    StartDate: date2.value,
-    EndDate: date3.value,
-  };
-  // Number:
-
-  fetch("/get_time", {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      response.text().then(function (data) {
-        output.textContent = JSON.parse(data);
-        let array = JSON.parse(data);
-        //Айдар, засунуть array в данные графика как-то надо................
-        // Обновление данных графика
-        myChart.data.datasets[0].data = array;
-        myChart.update();
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
+const myChart = new Chart(document.getElementById("myChart"), config);
+const chartBody = document.querySelector(".chart__body");
+const totalLabels = myChart.data.labels.length; // typo was fixed here
+if (totalLabels > 30) {
+  const newWidth = 1100 + (totalLabels - 30) * 40;
+  chartBody.style.width = `${newWidth}px`;
+}
