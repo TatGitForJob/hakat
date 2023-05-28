@@ -432,6 +432,8 @@ select:focus {
   color: #ffffff;
   background-color: #02458d;
   border-radius: 20px;
+  width: 100%;
+  max-width: 280px;
   cursor: pointer;
 }
 .flight-selection__text:hover {

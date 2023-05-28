@@ -95,3 +95,41 @@ data1.addEventListener("input", () => {
 data2.addEventListener("input", () => {
   data1.max = data2.value;
 });
+// Обработчик событий на первоначальный выбор направления,а после номер рейса
+const direction = document.getElementById("Direction");
+const flightSelection = document.getElementById("flightSelection");
+direction.addEventListener("change", () => {
+  flightSelection.readOnly = false;
+  flightSelection.value = "";
+});
+
+// // Очищаем предыдущие элементы option, если они были
+// flightSelection.innerHTML = "";
+
+// let data = {
+//   Direction: direction.value,
+//   Date: date1.value,
+// };
+// // Number:
+// fetch("/get_class", {
+//   headers: {
+// 	 Accept: "application/json",
+// 	 "Content-Type": "application/json",
+//   },
+//   method: "POST",
+//   body: JSON.stringify(data),
+// })
+//   .then((response) => {
+// 	 return response.json();
+//   })
+//   .then((data) => {
+// 	 data.rows.forEach((optionValue) => {
+// 		const optionElement = document.createElement("option");
+// 		optionElement.value = optionValue;
+// 		optionElement.text = optionValue;
+// 		flightSelection.appendChild(optionElement);
+// 	 });
+//   })
+//   .catch((error) => {
+// 	 console.log(error);
+//   });

@@ -147,3 +147,10 @@ data1.addEventListener("input", () => {
 data2.addEventListener("input", () => {
   data1.max = data2.value;
 });
+// Обработчик событий на первоначальный выбор направления,а после номер рейса
+const direction = document.getElementById("Direction");
+const flightSelection = document.getElementById("flightSelection");
+direction.addEventListener("change", () => {
+  flightSelection.readOnly = false;
+  flightSelection.value = "";
+});
