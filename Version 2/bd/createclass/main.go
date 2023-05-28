@@ -7,11 +7,10 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"os"
-	"strings"
 )
 
 func main() {
-	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/server?sslmode=disable")
+	db, err := sql.Open("postgres", "postgres://postgres:root@localhost:5432/class?sslmode=disable")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,14 +38,10 @@ func main() {
 			continue
 		}
 
-		newDate := strings.ReplaceAll(record[4], ".", "")
-		name := record[6] + record[7] + newDate
+		name := record[6] + record[7]
 
 		createTableQuery := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s
-(   FLT_NUM   VARCHAR(100),
-    SEG_CLASS_CODE  VARCHAR(100),
-    PASS_BK  VARCHAR(100),
-    DTD VARCHAR(100));`, name)
+(   FLT_NUM   VARCHAR(100));`, name)
 		_, err = db.Exec(createTableQuery)
 		if err != nil {
 			fmt.Println("Ошибка при создании")
@@ -54,14 +49,15 @@ func main() {
 
 		// Пропущены остальные поля, которые необходимо добавить в запрос INSERT.
 
-		insertQuery := fmt.Sprintf(`INSERT INTO %s (FLT_NUM, SEG_CLASS_CODE, PASS_BK, DTD)
-		VALUES ('%s', '%s', '%s', '%s', '%s')`,
-			name, record[3], record[9], record[12], record[17])
+		insertQuery := fmt.Sprintf(`INSERT INTO %s (FLT_NUM)
+		VALUES ('%s')`,
+			name, record[3])
 
 		_, err = db.Exec(insertQuery)
 		if err != nil {
 			fmt.Println("Ошибка при инсерте")
 		}
+		fmt.Println(count)
 		if count%1000000 == 0 {
 			fmt.Println(count)
 		}

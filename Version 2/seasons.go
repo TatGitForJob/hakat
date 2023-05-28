@@ -25,10 +25,13 @@ type SeasonClassInput struct {
 	Direction string
 }
 
+var canvas = make([]int, 0)
+var datte = make([]string, 0)
+
 type Seasoning struct {
 	dd    int
 	date  string
-	count int
+	Count int
 }
 type Sort_Seasons []Seasoning
 
@@ -73,6 +76,18 @@ func getSeasonClass(writer http.ResponseWriter, request *http.Request, params ht
 
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(response)
+	return
+}
+
+func getSea(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	var data SeasonInput
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		return
+	}
+	writer.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(writer).Encode(datte)
+	datte = datte[:0]
 	return
 }
 
@@ -126,13 +141,18 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 		t3, _ := time.Parse(layout, data.EndDate)
 		if int(t3.Sub(t1).Hours()/24) >= 0 && int(t1.Sub(t2).Hours()/24) >= 0 {
 			fmt.Println(dd + " " + pass_dep)
-			seasoning = append(seasoning, Seasoning{count: i, dd: int(t1.Sub(t2).Hours() / 24), date: ddNewNew})
+			seasoning = append(seasoning, Seasoning{Count: i, dd: int(t1.Sub(t2).Hours() / 24), date: ddNewNew})
 		}
 	}
 	sort.Sort(Sort_Seasons(seasoning))
 	fmt.Println(seasoning)
+	for i := 0; i < len(seasoning); i-- {
+		canvas = append(canvas, seasoning[0].Count)
+		datte = append(datte, seasoning[0].date)
+	}
 
 	writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(writer).Encode(seasoning)
+	_ = json.NewEncoder(writer).Encode(canvas)
+	canvas = canvas[:0]
 	return
 }
