@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
+    <link rel="stylesheet" href="../css/seasons.css" />
+    <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <main class="page">
+        <header class="header">
+          <div class="container">
+            <div class="header__title">
+              <div class="header__logo">
+                <img src="../img/logo/Plane2.png" alt="" />
+              </div>
+              <div class="header__h1">
+                <h1>
+                  Сервис динамического прогнозирования спроса на авиарейсы
+                </h1>
+              </div>
+            </div>
+          </div>
+          <div class="header__row">
+            <nav class="header__menu menu">
+              <div class="menu__icon icon-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="menu__body">
+                <ul class="menu__list">
+                  <li>
+                    <a id="homepageButton" class="menu__link"
+                      >Динамика бронирования</a
+                    >
+                  </li>
+                  <li>
+                    <a id="seasonsButton" class="menu__link"
+                      >Сезонность спроса</a
+                    >
+                  </li>
+                  <li>
+                    <a id="proButton" class="menu__link"
+                      >Профиль спроса по вылетевшим рейсам</a
+                    >
+                  </li>
+                  <li>
+                    <a id="proTwoButton" class="menu__link"
+                      >Профиль спроса для продаваемых рейсов
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </header>
+        <div class="content">
+          <div class="container">
+            <div class="subtitle">Сезонность спроса</div>
+            <form onsubmit="return false;">
+              <div class="direction">
+                <div class="direction__text">Выберите направление рейса:</div>
+                <div class="select-wrapper">
+                  <select
+                    id="Direction"
+                    tabindex="1"
+                    name="direction"
+                    class="direction__list"
+                  >
+                    <option value="svoaer">Москва-Сочи</option>
+                    <option value="aersvo">Сочи-Москва</option>
+                    <option value="svoasf">Москва-Астрахань</option>
+                    <option value="asfsvo">Астрахань-Москва</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flight-selection">
+                <div class="flight-selection__subtitle">
+                  Выберите номер рейса:
+                </div>
+                <div class="select-wrapper">
+                  <select
+                    class="flight-selection__list"
+                    tabindex="3"
+                    name="flight-selection"
+                    id="Number"
+                  >
+                    <option value="">Сначала выберите направление рейса</option>
+                  </select>
+                </div>
+              </div>
+              <div class="booking-class">
+                <div class="booking-class__text">
+                  Выберите класс бронирования:
+                </div>
+                <div class="select-wrapper">
+                  <select id="Class" tabindex="2" class="booking-class__list">
+                    <optgroup label="Первый класс:">
+                      <option value="O">O — стандартный тариф</option>
+                      <option value="А">А — первый класс со скидкой</option>
+                      <option value="P">
+                        P — премиальный первый класс, наиболее комфортный
+                      </option>
+                      <option value="R">
+                        R — сверхзвуковой класс (есть только на большом
+                        пассажирском лайнере Аэробус А380)
+                      </option>
+                    </optgroup>
+                    <optgroup label="Бизнес-класс:">
+                      <option value="I">I — билеты со скидкой</option>
+                      <option value="D">D — билеты со скидкой</option>
+                      <option value="Z">Z — билеты со скидкой</option>
+                      <option value="С">С — стандартный тариф</option>
+                      <option value="J">
+                        J — билеты премиального бизнес-класса с широким
+                        ассортиментом услуг
+                      </option>
+                    </optgroup>
+                    <optgroup label="Эконом-класс:">
+                      <option value="W">W — эконом «премиум»</option>
+                      <option value="S">S — стандартный эконом</option>
+                      <option value="Y">Y — стандартный эконом</option>
+                      <option value="B">B — билеты со скидкой</option>
+                      <option value="H">H — билеты со скидкой</option>
+                      <option value="K">K — билеты со скидкой</option>
+                      <option value="L">L — билеты со скидкой</option>
+                      <option value="M">M — билеты со скидкой</option>
+                      <option value="N">N — билеты со скидкой</option>
+                      <option value="Q">Q — билеты со скидкой</option>
+                      <option value="T">T — билеты со скидкой</option>
+                      <option value="V">V — билеты со скидкой</option>
+                      <option value="G">G — эконом групповой</option>
+                      <option value="Х">Х — эконом групповой</option>
+                      <option value="Е">
+                        Е — тариф без предварительного бронирования,
+                        используется на чартерных рейсах, места в салоне можно
+                        подтвердить только при регистрации
+                      </option>
+                      <option value="U">
+                        U — тариф без предварительного бронирования, но с
+                        гарантией места
+                      </option>
+                    </optgroup>
+                  </select>
+                </div>
+              </div>
+              <div class="period">
+                <div class="period__text">
+                  Выберите период для просмотра сезонности спроса:
+                </div>
+                <label for="start-date">От:</label>
+                <input
+                  tabindex="5"
+                  class="period__date"
+                  type="date"
+                  id="start-date"
+                  name="start-date"
+                  value="2019-01-01"
+                  min="2017-01-01"
+                  max="2019-12-31"
+                />
+
+                <label for="end-date">До:</label>
+                <input
+                  tabindex="6"
+                  class="period__date"
+                  type="date"
+                  id="end-date"
+                  name="end-date"
+                  value="2019-12-31"
+                  min="2017-01-01"
+                  max="2019-12-31"
+                />
+              </div>
+              <button id="ask-Button" tabindex="3" class="button" type="submit">
+                Показать график
+              </button>
+              <h3 id="output"></h3>
+            </form>
+            <div class="graph">
+              График сезонного спроса по классам бронирования:
+            </div>
+            <div class="chart">
+              <div class="chart__text">Бронирование</div>
+              <div class="chart__box">
+                <div class="chart__container">
+                  <div class="chart__body">
+                    <canvas id="myChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"
+      integrity="sha512-wUYbRPLV5zs6IqvWd88HIqZU/b8TBx+I8LEioQ/UC0t5EMCLApqhIAnUg7EsAzdbhhdgW07TqYDdH3QEXRcPOQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="../js/seasons.js"></script>
+    <script src="../js/hrefs.js"></script>
+    <script src="../js/getNumberOfPlane.js"></script>
+  </body>
+</html>
