@@ -187,7 +187,7 @@ askButton = document.getElementById("ask-Button");
 clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
-const direction = document.getElementById("Direction");
+direction = document.getElementById("Direction");
 
 askButton.addEventListener("click", function () {
   let data = {
@@ -197,8 +197,6 @@ askButton.addEventListener("click", function () {
     StartDate: data1.value,
     EndDate: data2.value,
   };
-  // Number:
-
   fetch("/get_profile", {
     headers: {
       Accept: "application/json",
@@ -209,13 +207,18 @@ askButton.addEventListener("click", function () {
   }).then((response) => {
     response.text().then(function (data) {
       output.textContent = JSON.parse(data);
-      let array = JSON.parse(data); //Aйдар !!!!!!!!!!!!!!!!!!!!!!!!!!count-значение !!!!!!!!!!!!!!!!!!date-дата вниуз!
-      array.count;
       // Обновление данных графика
-      myChart.data.datasets[0].data = array;
+      myChart.data.datasets[0].data = JSON.parse(data).OtpuskArray;
+      JSON.parse(data).RabotaArray;
+      myChart.data.labels = JSON.parse(data).StringArray;
       myChart.update();
     });
-  });
+  })
+      .catch(error=>{
+        console.log(error)
+      });
+
+
 });
 
 // Обработчик событий на первоначальный выбор направления,а после номер рейса

@@ -50,6 +50,21 @@ askButton.addEventListener("click", function () {
         output.textContent = JSON.parse(data);
         // Обновление данных графика
         myChart.data.datasets[0].data = JSON.parse(data);
+
+
+        let visibility = document.getElementById("visibility");
+        visibility.classList.remove("visibility");
+
+        // Проверка есть ли данные для построения графика,если нет то график не выводиться
+        const isAllZeros = myChart.data.datasets[0].data.every((e) => e === 0);
+        console.log(isAllZeros);
+        if (isAllZeros === true) {
+          visibility.classList.add("visibility");
+          const errorElement = document.createElement("p");
+          const message = document.getElementById("message");
+          message.textContent = "Отсутствуют данные";
+        }
+
         myChart.update();
       });
     })
@@ -81,18 +96,7 @@ askButton.addEventListener("click", function () {
   myChart.update();
 
   // Отображение графика при нажатие на кнопку
-  let visibility = document.getElementById("visibility");
-  visibility.classList.remove("visibility");
 
-  // Проверка есть ли данные для построения графика,если нет то график не выводиться
-  const isAllZeros = myChart.data.datasets[0].data.every((e) => e === 0);
-  console.log(isAllZeros);
-  if (isAllZeros === true) {
-    visibility.classList.add("visibility");
-    const errorElement = document.createElement("p");
-    const message = document.getElementById("message");
-    message.textContent = "Отсутствуют данные";
-  }
 });
 
 // График

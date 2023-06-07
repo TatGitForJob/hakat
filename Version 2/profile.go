@@ -1,6 +1,5 @@
 package main
 
-/*
 import (
 	"database/sql"
 	"encoding/json"
@@ -23,7 +22,6 @@ type ProfileInput struct {
 }
 
 type Profiling struct {
-	dd      string
 	sdat_s  string
 	pass_bk int
 	dtd     int
@@ -90,7 +88,7 @@ func getProfile(writer http.ResponseWriter, request *http.Request, params httpro
 
 	name := data.Direction + data.Number
 	fmt.Println(name)
-	insertQuery := fmt.Sprintf(`SELECT dd, pass_bk, sdat_s, dtd  FROM %s WHERE seg_class_code = '%s'`, name, data.Class)
+	insertQuery := fmt.Sprintf(`SELECT pass_bk, sdat_s, dtd  FROM %s WHERE seg_class_code = '%s'`, name, data.Class)
 	rows, err := db.Query(insertQuery)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
@@ -98,12 +96,11 @@ func getProfile(writer http.ResponseWriter, request *http.Request, params httpro
 		return
 	}
 	defer rows.Close()
-	profiling := make([]Profiling, 0)
 	profilingU := make([]Profiling, 0)
 	profilingB := make([]Profiling, 0)
 	for rows.Next() {
-		var dd, pass_bk, sdat_s, dtd string
-		err := rows.Scan(&dd, &pass_bk, &sdat_s, &dtd)
+		var pass_bk, sdat_s, dtd string
+		err := rows.Scan(&pass_bk, &sdat_s, &dtd)
 		if err != nil {
 			http.Error(writer, err.Error(), http.StatusInternalServerError)
 			fmt.Println("ошибка при скане из данных базы")
@@ -142,5 +139,3 @@ func getProfile(writer http.ResponseWriter, request *http.Request, params httpro
 	_ = json.NewEncoder(writer).Encode(profiling)
 	return
 }
-
-*/
