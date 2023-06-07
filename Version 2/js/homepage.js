@@ -79,7 +79,21 @@ askButton.addEventListener("click", function () {
   const dates = getDates(startDate, endDate);
   myChart.data.labels = dates;
   myChart.update();
-	});
+
+  // Отображение графика при нажатие на кнопку
+  let visibility = document.getElementById("visibility");
+  visibility.classList.remove("visibility");
+
+  // Проверка есть ли данные для построения графика,если нет то график не выводиться
+  const isAllZeros = myChart.data.datasets[0].data.every((e) => e === 0);
+  console.log(isAllZeros);
+  if (isAllZeros === true) {
+    visibility.classList.add("visibility");
+    const errorElement = document.createElement("p");
+    const message = document.getElementById("message");
+    message.textContent = "Отсутствуют данные";
+  }
+});
 
 // График
 const dates1 = Array.from({ length: 150 }, (_, i) => `День ${i + 1}`);
@@ -91,10 +105,7 @@ const config = {
     datasets: [
       {
         label: "График динамики бронирования",
-        data: [
-          1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3,
-          4, 5,
-        ],
+        data: [0],
         backgroundColor: "#02458d",
         borderColor: "#02458d",
         borderWidth: 1,
