@@ -110,10 +110,7 @@ const config = {
       {
         type: "line",
         label: "Ожидаемое бронирование Б",
-        data: [
-          6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18,
-          12, 6, 9, 12, 3, 9,
-        ],
+        data: [0],
         backgroundColor: ["rgba(255, 0, 0, 1)"],
         borderColor: ["rgba(255, 0, 0, 1)"],
         borderWidth: 4,
@@ -204,21 +201,33 @@ askButton.addEventListener("click", function () {
     },
     method: "POST",
     body: JSON.stringify(data),
-  }).then((response) => {
-    response.text().then(function (data) {
-      output.textContent = JSON.parse(data);
-      // Обновление данных графика
-      myChart.data.datasets[0].data = JSON.parse(data).OtpuskArray;
-      JSON.parse(data).RabotaArray;
-      myChart.data.labels = JSON.parse(data).StringArray;
-      myChart.update();
-    });
   })
-      .catch(error=>{
-        console.log(error)
+    .then((response) => {
+      response.text().then(function (data) {
+        output.textContent = JSON.parse(data);
+        // Обновление данных графика
+        myChart.data.datasets[0].data = JSON.parse(data).OtpuskArray;
+        JSON.parse(data).RabotaArray;
+        myChart.data.labels = JSON.parse(data).StringArray;
+
+        // Отображение графика при нажатие на кнопку
+        let visibility = document.getElementById("visibility");
+        visibility.classList.remove("visibility");
+
+        // Проверка есть ли данные для построения графика,если нет то график не выводиться
+        const isAllZeros = myChart.data.datasets[0].data.every((e) => e === 0);
+        if (isAllZeros === true) {
+          visibility.classList.add("visibility");
+          const message = document.getElementById("message");
+          message.textContent = "Отсутствуют данные";
+        }
+
+        myChart.update();
       });
-
-
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 // Обработчик событий на первоначальный выбор направления,а после номер рейса

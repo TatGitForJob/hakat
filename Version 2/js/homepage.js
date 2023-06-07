@@ -51,18 +51,22 @@ askButton.addEventListener("click", function () {
         // Обновление данных графика
         myChart.data.datasets[0].data = JSON.parse(data);
 
-
+        // Отображение графика при нажатие на кнопку
         let visibility = document.getElementById("visibility");
         visibility.classList.remove("visibility");
 
         // Проверка есть ли данные для построения графика,если нет то график не выводиться
         const isAllZeros = myChart.data.datasets[0].data.every((e) => e === 0);
-        console.log(isAllZeros);
         if (isAllZeros === true) {
           visibility.classList.add("visibility");
-          const errorElement = document.createElement("p");
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
+        }
+        const isAllEmpty = myChart.data.datasets[0].data;
+        if (isAllEmpty.length === 0) {
+          visibility.classList.add("visibility");
+          const message = document.getElementById("message");
+          message.textContent = "Пустой массив";
         }
 
         myChart.update();
@@ -94,9 +98,6 @@ askButton.addEventListener("click", function () {
   const dates = getDates(startDate, endDate);
   myChart.data.labels = dates;
   myChart.update();
-
-  // Отображение графика при нажатие на кнопку
-
 });
 
 // График
@@ -109,7 +110,7 @@ const config = {
     datasets: [
       {
         label: "График динамики бронирования",
-        data: [0],
+        data: [],
         backgroundColor: "#02458d",
         borderColor: "#02458d",
         borderWidth: 1,
