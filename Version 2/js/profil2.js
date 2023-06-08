@@ -33,7 +33,7 @@ function updateChart() {
   const myChart = new Chart(document.getElementById("myChart"), config);
   const chartBody = document.querySelector(".chart__body");
   const totalLabels = myChart.data.labels.length;
-  if (totalLabels > 0) {
+  if (totalLabels > 1) {
     const newWidth = 1100 + (totalLabels - 30) * 40;
     chartBody.style.width = `${newWidth}px`;
   }
@@ -187,7 +187,7 @@ const config = {
 const myChart = new Chart(document.getElementById("myChart"), config);
 const chartBody = document.querySelector(".chart__body");
 const totalLabels = myChart.data.labels.length; // typo was fixed here
-if (totalLabels > 0) {
+if (totalLabels > 1) {
   const newWidth = 1100 + (totalLabels - 30) * 40;
   chartBody.style.width = `${newWidth}px`;
 }
@@ -205,7 +205,10 @@ askButton = document.getElementById("ask-Button");
 clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
-const direction = document.getElementById("Direction");
+direction = document.getElementById("Direction");
+direction.addEventListener("click", () => {
+  askButton.disabled = false;
+});
 
 askButton.addEventListener("click", function () {
   let data = {
