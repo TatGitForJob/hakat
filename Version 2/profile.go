@@ -26,11 +26,6 @@ type Profiling struct {
 	pass_bk int
 	dtd     int
 }
-type Output struct {
-	date  string
-	count int
-	color string
-}
 
 type FirstSort []Profiling
 
@@ -47,6 +42,20 @@ func (s FirstSort) Less(i, j int) bool {
 		return s[i].dtd > s[j].dtd
 	}
 	return s[i].dd < s[j].dd
+}
+
+type SecondSort []Profiling
+
+func (s SecondSort) Len() int {
+	return len(s)
+}
+
+func (s SecondSort) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s SecondSort) Less(i, j int) bool {
+	return s[i].sdat_s < s[j].sdat_s
 }
 
 func GetTruePassBk(prof []Profiling) []Profiling {
@@ -112,23 +121,62 @@ func getProfile(writer http.ResponseWriter, request *http.Request, params httpro
 	}
 	sort.Sort(FirstSort(profiling))
 	profiling = GetTruePassBk(profiling)
-	/*
-		for i := len(profiling) - 1; i >= 0; i-- {
-			if profiling[i].dtd < 30 {
-				profilingB = append(profilingB, profiling[i])
-			} else {
-				profilingU = append(profilingU, profiling[i])
-			}
+	profilingU := make([]Profiling, 0)
+	profilingB := make([]Profiling, 0)
+	for i := 0; i <= len(profiling)-1; i++ {
+		if profiling[i].dtd < 30 {
+			profilingB = append(profilingB, profiling[i])
+		} else {
+			profilingU = append(profilingU, profiling[i])
 		}
-	*/
+	}
+	sort.Sort(SecondSort(profilingB))
+	sort.Sort(SecondSort(profilingU))
+	for i := 1; i <= len(profilingB)-1; i++ {
+		if profilingB[i].sdat_s == profilingB[i-1].sdat_s {
+			profilingB[i].pass_bk += profilingB[i-1].pass_bk
+		}
+	}
+	for i := 1; i <= len(profilingU)-1; i++ {
+		if profilingU[i].sdat_s == profilingU[i-1].sdat_s {
+			profilingU[i].pass_bk += profilingU[i-1].pass_bk
+		}
+	}
+	profilingUU := make([]Profiling, 0)
+	profilingBB := make([]Profiling, 0)
+	for i := 1; i <= len(profilingB)-1; i++ {
+		if profilingB[i].sdat_s >= data.StartDate && profilingB[i].sdat_s <= data.EndDate && (i == len(profilingB)-1 || profilingB[i].sdat_s != profilingB[i+1].sdat_s) {
+			profilingBB = append(profilingBB, profilingB[i])
+		}
+	}
+	for i := 1; i <= len(profilingU)-1; i++ {
+		if profilingU[i].sdat_s >= data.StartDate && profilingU[i].sdat_s <= data.EndDate && (i == len(profilingU)-1 || profilingU[i].sdat_s != profilingU[i+1].sdat_s) {
+			profilingUU = append(profilingUU, profilingU[i])
+		}
+	}
+
+	otArr := make([]int, 0)
+	raArr := make([]int, 0)
+	strArr := make([]string, 0)
+	for i := 1; i <= len(profilingBB)-1; i++ {
+		raArr = append(raArr, profilingBB[i].pass_bk)
+		strArr = append(strArr, profilingBB[i].sdat_s)
+	}
+	for i := 1; i <= len(profilingUU)-1; i++ {
+		otArr = append(otArr, profilingUU[i].pass_bk)
+	}
+
+	fmt.Println(len(profilingBB))
+	fmt.Println(len(profilingUU))
+
 	dad := struct {
 		OtpuskArray []int
 		RabotaArray []int
 		StringArray []string
 	}{
-		OtpuskArray: []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 113, 1, 1, 12, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		RabotaArray: []int{4, 4, 5, 4, 4, 4, 10, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4},
-		StringArray: []string{"1day", "2day", "3day", "4day", "5day", "1day", "2day", "3day", "4day", "5day", "1day", "2day", "3day", "4day", "5day", "1day", "2day", "3day", "4day", "5day", "1day", "2day", "3day", "4day", "5day"},
+		OtpuskArray: otArr,
+		RabotaArray: raArr,
+		StringArray: strArr,
 	}
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(dad)
