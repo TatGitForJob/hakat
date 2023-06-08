@@ -190,7 +190,7 @@ date1.addEventListener("input", () => {
 myChart = new Chart(document.getElementById("myChart"), config);
 chartBody = document.querySelector(".chart__body");
 totalLabels = myChart.data.labels.length;
-if (totalLabels > 30) {
+if (totalLabels > 0) {
   const newWidth = 1100 + (totalLabels - 30) * 40;
   chartBody.style.width = `${newWidth}px`;
 }
