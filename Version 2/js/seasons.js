@@ -90,16 +90,6 @@ const config = {
         tension: 0.4,
         borderJoinStyle: "bevel",
       },
-      // {
-      //   label: "График динамики бронирования",
-      //   data: [
-      //     18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3,
-      //     9, 18, 12, 6, 9, 12, 3, 9,
-      //   ],
-      //   backgroundColor: "#02458d",
-      //   borderColor: "#02458d",
-      //   borderWidth: 1,
-      // },
     ],
   },
   options: {

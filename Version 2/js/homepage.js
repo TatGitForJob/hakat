@@ -26,8 +26,8 @@ clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
 
-$(document).ready(function() {
-  $("#ask-Button").click(function() {
+$(document).ready(function () {
+  $("#ask-Button").click(function () {
     // Отправка запроса на сервер
     window.location.href = "/download";
   });
@@ -152,6 +152,7 @@ date1.addEventListener("input", () => {
   date2.max = date1.value;
   date3.max = date1.value;
   date2.value = date1.value;
+  askButton.disabled = false;
   const oneMonthEarlier = new Date(date1.value);
   oneMonthEarlier.setMonth(oneMonthEarlier.getMonth() - 1);
   date3.value = oneMonthEarlier.toISOString().slice(0, 10);

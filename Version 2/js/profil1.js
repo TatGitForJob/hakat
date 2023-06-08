@@ -22,7 +22,7 @@ iconMenu.forEach(function (item) {
 });
 // Обработчик событий на присваивание даты рейса на период вывода графика
 date2 = document.getElementById("end-date");
- date3 = document.getElementById("start-date");
+date3 = document.getElementById("start-date");
 flightSelection = document.getElementById("Number");
 function updateChart() {
   let chartExists = Chart.getChart("myChart");
@@ -100,33 +100,6 @@ const config = {
         order: 1,
         pointRadius: 0,
       },
-      // //  График Ожидаемое бронирование Б
-      // {
-      //   type: "line",
-      //   label: "Ожидаемое бронирование Б",
-      //   data: [0],
-      //   backgroundColor: ["rgba(255, 0, 0, 1)"],
-      //   borderColor: ["rgba(255, 0, 0, 1)"],
-      //   borderWidth: 4,
-      //   fill: false,
-      //   tension: 0.1,
-      //   borderJoinStyle: "bevel",
-      //   order: 1,
-      //   pointRadius: 0,
-      // },
-      // // //  График Ожидаемое бронирование AБ
-      // // {
-      // //   type: "scatter",
-      // //   label: "Ожидаемое бронирование AБ",
-      // //   data: [3, 4, 4, 3, 4, 23, 4, 2, 34],
-      // //   backgroundColor: ["rgba(133, 127, 127, 1)"],
-      // //   borderColor: ["rgba(133, 127, 127, 1)"],
-      // //   borderWidth: 4,
-      // //   fill: false,
-      // //   tension: 0.1,
-      // //   borderJoinStyle: "bevel",
-      // //   order: 1,
-      // // },
     ],
   },
 
