@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/julienschmidt/httprouter"
 	"html/template"
 	"log"
@@ -216,6 +217,29 @@ func serveProTwo(writer http.ResponseWriter, request *http.Request, params httpr
 		fmt.Println("не переводит на профил1")
 	}
 }
+
+func download(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	file := excelize.NewFile()
+
+	// Заполнение файла данными
+	// Пример заполнения
+	file.SetCellValue("Sheet1", "A1", "Hellodgdrfgdr")
+	file.SetCellValue("Sheet1", "B1", "World")
+
+	// Сохранение файла на сервере
+	filePath := "excel/file.xlsx"
+	if err := file.SaveAs(filePath); err != nil {
+		fmt.Println("Ошибка сохранения файла:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// Отправка файла в ответе
+	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	w.Header().Set("Content-Disposition", "attachment; filename=file.xlsx")
+	http.ServeFile(w, r, filePath)
+}
+
 func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	if request.Method == "POST" {
 		var data User

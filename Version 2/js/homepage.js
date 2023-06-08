@@ -26,6 +26,13 @@ clas = document.getElementById("Class");
 number = document.getElementById("Number");
 output = document.getElementById("output");
 
+$(document).ready(function() {
+  $("#ask-Button").click(function() {
+    // Отправка запроса на сервер
+    window.location.href = "/download";
+  });
+});
+
 askButton.addEventListener("click", function () {
   let data = {
     Direction: direction.value,

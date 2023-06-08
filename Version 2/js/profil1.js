@@ -21,9 +21,9 @@ iconMenu.forEach(function (item) {
   });
 });
 // Обработчик событий на присваивание даты рейса на период вывода графика
-const date2 = document.getElementById("end-date");
-const date3 = document.getElementById("start-date");
-const flightSelection = document.getElementById("Number");
+date2 = document.getElementById("end-date");
+ date3 = document.getElementById("start-date");
+flightSelection = document.getElementById("Number");
 function updateChart() {
   let chartExists = Chart.getChart("myChart");
   if (chartExists) {

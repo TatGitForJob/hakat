@@ -31,7 +31,7 @@ func (p program) Start(s service.Service) error {
 	router.POST("/get_season", getSeason)
 	router.POST("/get_profile", getProfile)
 	router.POST("/get_class", getClass)
-
+	router.GET("/download", download)
 	err := http.ListenAndServe(":3000", router)
 	if err != nil {
 	}
