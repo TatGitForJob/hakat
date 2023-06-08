@@ -78,41 +78,21 @@ const config = {
   data: {
     labels: getDates(startDate, endDate),
     datasets: [
-      // //  График Спроса А
-      // {
-      //   type: "line",
-      //   label: "Спрос А",
-      //   data: [
-      //     9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3,
-      //     1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2,
-      //   ],
-      //   pointRadius: 0,
-      //   order: 5,
-      // },
-      // //  График Спроса Б
-      // {
-      //   type: "line",
-      //   label: "Спрос Б",
-      //   data: [
-      //     18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3,
-      //     9, 18, 12, 6, 9, 12, 3, 9,
-      //   ],
-      //   backgroundColor: ["rgba(123, 121, 209, 1)"],
-      //   borderColor: ["rgba(123, 121, 209, 1)"],
-      //   borderWidth: 4,
-      //   fill: false,
-      //   tension: 0.1,
-      //   borderJoinStyle: "bevel",
-      //   order: 1,
-      //   pointRadius: 0,
-      // },
-      //  График Ожидаемое бронирование Б
+      //  График спроса в разрезе  Отпуска
       {
-        type: "line",
-        label: "Ожидаемое бронирование Б",
+        type: "bar",
+        label: "Отпуск",
         data: [0],
-        backgroundColor: ["rgba(255, 0, 0, 1)"],
-        borderColor: ["rgba(255, 0, 0, 1)"],
+        pointRadius: 0,
+        order: 5,
+      },
+      //  График спроса в разрезе Командировки
+      {
+        type: "bar",
+        label: "Командировка",
+        data: [0],
+        backgroundColor: ["rgba(123, 121, 209, 1)"],
+        borderColor: ["rgba(123, 121, 209, 1)"],
         borderWidth: 4,
         fill: false,
         tension: 0.1,
@@ -120,19 +100,33 @@ const config = {
         order: 1,
         pointRadius: 0,
       },
-      // //  График Ожидаемое бронирование AБ
+      // //  График Ожидаемое бронирование Б
       // {
-      //   type: "scatter",
-      //   label: "Ожидаемое бронирование AБ",
-      //   data: [3, 4, 4, 3, 4, 23, 4, 2, 34],
-      //   backgroundColor: ["rgba(133, 127, 127, 1)"],
-      //   borderColor: ["rgba(133, 127, 127, 1)"],
+      //   type: "line",
+      //   label: "Ожидаемое бронирование Б",
+      //   data: [0],
+      //   backgroundColor: ["rgba(255, 0, 0, 1)"],
+      //   borderColor: ["rgba(255, 0, 0, 1)"],
       //   borderWidth: 4,
       //   fill: false,
       //   tension: 0.1,
       //   borderJoinStyle: "bevel",
       //   order: 1,
+      //   pointRadius: 0,
       // },
+      // // //  График Ожидаемое бронирование AБ
+      // // {
+      // //   type: "scatter",
+      // //   label: "Ожидаемое бронирование AБ",
+      // //   data: [3, 4, 4, 3, 4, 23, 4, 2, 34],
+      // //   backgroundColor: ["rgba(133, 127, 127, 1)"],
+      // //   borderColor: ["rgba(133, 127, 127, 1)"],
+      // //   borderWidth: 4,
+      // //   fill: false,
+      // //   tension: 0.1,
+      // //   borderJoinStyle: "bevel",
+      // //   order: 1,
+      // // },
     ],
   },
 
@@ -144,6 +138,7 @@ const config = {
     tension: 0.4,
     borderJoinStyle: "bevel",
     maintainAspectRatio: false,
+    responsive: true,
 
     scales: {
       y: {
@@ -152,12 +147,13 @@ const config = {
     },
     plugins: {
       legend: {
-        display: false,
-        position: "left",
+        display: true,
+        position: "bottom",
+        align: "start",
       },
       title: {
         display: false,
-        text: "Спрос А)",
+        text: "Спрос А",
       },
     },
   },
@@ -207,9 +203,8 @@ askButton.addEventListener("click", function () {
         output.textContent = JSON.parse(data);
         // Обновление данных графика
         myChart.data.datasets[0].data = JSON.parse(data).OtpuskArray;
-        JSON.parse(data).RabotaArray;
+        myChart.data.datasets[1].data = JSON.parse(data).RabotaArray;
         myChart.data.labels = JSON.parse(data).StringArray;
-
         // Отображение графика при нажатие на кнопку
         let visibility = document.getElementById("visibility");
         visibility.classList.remove("visibility");
@@ -221,7 +216,6 @@ askButton.addEventListener("click", function () {
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
         }
-
         myChart.update();
       });
     })
