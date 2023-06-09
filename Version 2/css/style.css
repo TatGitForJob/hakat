@@ -119,13 +119,14 @@ h6 {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 70%;
           flex: 0 1 70%;
-  text-align: center;
+  text-align: left;
   font-size: 30px;
-  font-style: italic;
-  font-weight: 100;
-  text-shadow: 2px 2px black;
+  font-weight: 300;
   -ms-flex-item-align: center;
       align-self: center;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
 }
 .header__logo {
   padding: 20px 0 0 0;
@@ -144,7 +145,7 @@ h6 {
      object-fit: contain;
   -ms-flex-item-align: center;
       align-self: center;
-  justify-self: start;
+  justify-self: end;
   max-height: 250px;
 }
 @media (max-width: 500px) {
@@ -232,7 +233,7 @@ h6 {
   font-size: 13px;
   line-height: 1px;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   color: #ffffff;
 }
 .menu__link:hover {

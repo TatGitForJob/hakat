@@ -45,12 +45,11 @@ $fontfamily: "Roboto";
 	&__h1 {
 		color: #fff;
 		flex: 0 1 70%;
-		text-align: center;
+		text-align: left;
 		font-size: 30px;
-		font-style: italic;
-		font-weight: 100;
-		text-shadow: 2px 2px black;
+		font-weight: 300;
 		align-self: center;
+		justify-content: left
 	}
 	&__logo {
 		padding: 20px 0 0 0;
@@ -148,7 +147,7 @@ $fontfamily: "Roboto";
 		font-size: 13px;
 		line-height: 1px;
 		font-weight: 400;
-		letter-spacing: 0.2em;
+		letter-spacing: 0.1em;
 		color: #ffffff;
 		&:hover {
 			position: relative; /* включаем относительное позиционирование */
