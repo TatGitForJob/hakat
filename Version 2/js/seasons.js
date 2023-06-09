@@ -139,6 +139,13 @@ direction.addEventListener("click", () => {
   askButton.disabled = false;
 });
 
+$(document).ready(function () {
+  $("#download-Button").click(function () {
+    // Отправка запроса на сервер
+    window.location.href = "/download_season";
+  });
+});
+
 askButton.addEventListener("click", function () {
   let data = {
     Direction: direction.value,
@@ -159,7 +166,7 @@ askButton.addEventListener("click", function () {
   })
     .then((response) => {
       response.text().then(function (data) {
-        output.textContent = JSON.parse(data);
+        //output.textContent = JSON.parse(data);
         // Обновление данных графика
         myChart.data.datasets[0].data = JSON.parse(data).IntArray;
         myChart.data.labels = JSON.parse(data).StringArray;

@@ -27,9 +27,9 @@ number = document.getElementById("Number");
 output = document.getElementById("output");
 
 $(document).ready(function () {
-  $("#ask-Button").click(function () {
+  $("#download-Button").click(function () {
     // Отправка запроса на сервер
-    window.location.href = "/download";
+    window.location.href = "/download_dinamic";
   });
 });
 
@@ -54,7 +54,7 @@ askButton.addEventListener("click", function () {
   })
     .then((response) => {
       response.text().then(function (data) {
-        output.textContent = JSON.parse(data);
+        //output.textContent = JSON.parse(data);
         // Обновление данных графика
         myChart.data.datasets[0].data = JSON.parse(data);
 
@@ -145,7 +145,7 @@ const config = {
 const date1 = document.getElementById("date");
 const date2 = document.getElementById("end-date");
 const date3 = document.getElementById("start-date");
-const direction = document.getElementById("Direction");
+let direction = document.getElementById("Direction");
 const flightSelection = document.getElementById("Number");
 
 date1.addEventListener("input", () => {

@@ -142,7 +142,35 @@ func getTime(writer http.ResponseWriter, request *http.Request, params httproute
 		dinamica = append(dinamica, Dinamica{count: passbk, dtd: i})
 	}
 	aaa := ProcessDinamica(data.Date, data.EndDate, data.StartDate, dinamica)
-	fmt.Println(aaa)
+
+	startDateStr := data.EndDate
+	endDateStr := data.StartDate
+
+	startDate, _ := time.Parse("2006-01-02", startDateStr)
+	endDate, _ := time.Parse("2006-01-02", endDateStr)
+
+	var dates []string
+	for currentDate := startDate; !currentDate.After(endDate); currentDate = currentDate.AddDate(0, 0, 1) {
+		dates = append(dates, currentDate.Format("2006-01-02"))
+	}
+
+	file := excelize.NewFile()
+
+	file.SetCellValue("Sheet1", "A1", "Dates")
+	file.SetCellValue("Sheet1", "B1", "Metric")
+	for i := 0; i < len(dates); i++ {
+		file.SetCellValue("Sheet1", "A"+strconv.Itoa(i+2), dates[i])
+		file.SetCellValue("Sheet1", "B"+strconv.Itoa(i+2), aaa[i])
+	}
+
+	filePath := "excel/dinamic.xlsx"
+	if err := file.SaveAs(filePath); err != nil {
+		fmt.Println("Ошибка сохранения файла:", err)
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println(len(aaa) + len(dates))
 
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(aaa)
@@ -204,40 +232,26 @@ func serveSeasons(writer http.ResponseWriter, request *http.Request, params http
 	_ = tmpl.Execute(writer, nil)
 }
 func servePro(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	tmpl := template.Must(template.ParseFiles("html/profil1.html"))
+	tmpl := template.Must(template.ParseFiles("html/profile.html"))
 	err := tmpl.Execute(writer, nil)
 	if err != nil {
-		fmt.Println("не переводит на профил1")
+		fmt.Println("не переводит на профиль")
 	}
 }
 func serveProTwo(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
-	tmpl := template.Must(template.ParseFiles("html/profil2.html"))
+	tmpl := template.Must(template.ParseFiles("html/predict.html"))
 	err := tmpl.Execute(writer, nil)
 	if err != nil {
-		fmt.Println("не переводит на профил1")
+		fmt.Println("не переводит на предикт")
 	}
 }
 
-func download(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	file := excelize.NewFile()
-
-	// Заполнение файла данными
-	// Пример заполнения
-	file.SetCellValue("Sheet1", "A1", "Hellodgdrfgdr")
-	file.SetCellValue("Sheet1", "B1", "World")
-
-	// Сохранение файла на сервере
-	filePath := "excel/file.xlsx"
-	if err := file.SaveAs(filePath); err != nil {
-		fmt.Println("Ошибка сохранения файла:", err)
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
+func downloadDinamic(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 
 	// Отправка файла в ответе
 	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-	w.Header().Set("Content-Disposition", "attachment; filename=file.xlsx")
-	http.ServeFile(w, r, filePath)
+	w.Header().Set("Content-Disposition", "attachment; filename=dinamic.xlsx")
+	http.ServeFile(w, r, "excel/dinamic.xlsx")
 }
 
 func authHandler(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {

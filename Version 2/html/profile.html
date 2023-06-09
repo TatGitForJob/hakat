@@ -2,7 +2,7 @@
 <html lang="ru">
   <head>
     <title>Сервис динамического прогнозирования спроса на авиарейсы</title>
-    <link rel="stylesheet" href="../css/profil2.css" />
+    <link rel="stylesheet" href="../css/profil1.css" />
     <link rel="shortcut icon" href="../img/shortcut_icon/plane.svg" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -50,7 +50,7 @@
                   </li>
                   <li>
                     <a id="proTwoButton" class="menu__link"
-                      >Профиль спроса для продаваемых рейсов
+                      >Прогнозирование спроса для продаваемых рейсов
                     </a>
                   </li>
                 </ul>
@@ -60,7 +60,7 @@
         </header>
         <div class="content">
           <div class="container">
-            <div class="subtitle">Профиль спроса для продаваемых рейсов</div>
+            <div class="subtitle">Профиль спроса по вылетевшим рейсам</div>
             <form onsubmit="return false;">
               <div class="direction">
                 <div class="direction__text">Выберите направление рейса:</div>
@@ -150,8 +150,8 @@
               </div>
               <div class="period">
                 <div class="period__text">
-                  Выберите период для просмотра профиля спроса для продаваемых
-                  рейсов:
+                  Выберите период для просмотра профиля спроса по вылетевшим
+                  рейсам:
                 </div>
                 <label for="start-date">От:</label>
                 <input
@@ -160,7 +160,7 @@
                   type="date"
                   id="start-date"
                   name="start-date"
-                  value="2019-12-01"
+                  value="2019-01-01"
                   min="2017-01-01"
                   max="2019-12-31"
                 />
@@ -177,20 +177,17 @@
                   max="2019-12-31"
                 />
               </div>
-              <button
-                id="ask-Button"
-                disabled
-                tabindex="3"
-                class="button"
-                type="submit"
-              >
+              <button id="ask-Button" disabled tabindex="3" class="button" type="submit">
                 Показать график
               </button>
               <div id="message"></div>
               <h3 id="output"></h3>
             </form>
             <div id="visibility" class="visibility">
-              <div class="graph">График прогноза спроса:</div>
+              <div class="graph">
+                График профиля спроса в разрезе классов бронирования,по
+                вылетевшим рейсам:
+              </div>
               <div class="chart">
                 <div class="chart__text">Спрос</div>
                 <div class="chart__box">
@@ -201,9 +198,9 @@
                   </div>
                 </div>
               </div>
-              <button id="download-Button" class="button" type="submit">
-                Скачать
-              </button>
+				  <button id="download-Button" class="button" type="submit">
+					Скачать
+				 </button>
             </div>
           </div>
         </div>
@@ -217,8 +214,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="../js/profil2.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/hrefs.js"></script>
+    <script src="../js/profile.js"></script>
     <script src="../js/getNumberOfPlane.js"></script>
   </body>
 </html>

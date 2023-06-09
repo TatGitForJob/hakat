@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -178,7 +179,36 @@ func getProfile(writer http.ResponseWriter, request *http.Request, params httpro
 		RabotaArray: raArr,
 		StringArray: strArr,
 	}
+
+	file := excelize.NewFile()
+
+	file.SetCellValue("Sheet1", "A1", "Даты")
+	file.SetCellValue("Sheet1", "B1", "Командировка")
+	file.SetCellValue("Sheet1", "C1", "Отпуск")
+	for i := 0; i < len(raArr); i++ {
+		file.SetCellValue("Sheet1", "A"+strconv.Itoa(i+2), dad.StringArray[i])
+		file.SetCellValue("Sheet1", "B"+strconv.Itoa(i+2), dad.RabotaArray[i])
+	}
+	for i := 0; i < len(otArr); i++ {
+		file.SetCellValue("Sheet1", "C"+strconv.Itoa(i+2), dad.OtpuskArray[i])
+	}
+
+	filePath := "excel/profile.xlsx"
+	if err := file.SaveAs(filePath); err != nil {
+		fmt.Println("Ошибка сохранения файла:", err)
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	writer.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(writer).Encode(dad)
 	return
+}
+
+func downloadProfile(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+
+	// Отправка файла в ответе
+	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	w.Header().Set("Content-Disposition", "attachment; filename=profile.xlsx")
+	http.ServeFile(w, r, "excel/profile.xlsx")
 }

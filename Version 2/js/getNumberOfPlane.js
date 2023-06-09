@@ -1,5 +1,6 @@
  direction = document.getElementById("Direction");
  flightSelection = document.getElementById("Number");
+
 direction.addEventListener("change", () => {
     flightSelection.innerHTML = "";
     let data = {

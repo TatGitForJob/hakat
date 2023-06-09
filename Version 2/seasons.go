@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -147,10 +148,34 @@ func getSeason(writer http.ResponseWriter, request *http.Request, params httprou
 	fmt.Println("sssssssssssss")
 	//fmt.Println(canvas[0:10])
 
+	file := excelize.NewFile()
+
+	file.SetCellValue("Sheet1", "A1", "Dates")
+	file.SetCellValue("Sheet1", "B1", "Metric")
+	for i := 0; i < len(da.IntArray); i++ {
+		file.SetCellValue("Sheet1", "A"+strconv.Itoa(i+2), da.StringArray[i])
+		file.SetCellValue("Sheet1", "B"+strconv.Itoa(i+2), da.IntArray[i])
+	}
+
+	filePath := "excel/season.xlsx"
+	if err := file.SaveAs(filePath); err != nil {
+		fmt.Println("Ошибка сохранения файла:", err)
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	writer.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(writer).Encode(da)
 	if err != nil {
 		fmt.Println(err)
 	}
 	return
+}
+
+func downloadSeason(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+
+	// Отправка файла в ответе
+	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	w.Header().Set("Content-Disposition", "attachment; filename=season.xlsx")
+	http.ServeFile(w, r, "excel/season.xlsx")
 }

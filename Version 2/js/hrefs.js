@@ -17,8 +17,8 @@ homepageButton.addEventListener("click", function () {
     window.location.href = "/homepage"
 })
 profil1Button.addEventListener("click", function () {
-    window.location.href = "/pro"
+    window.location.href = "/profile"
 })
 profil2Button.addEventListener("click", function () {
-    window.location.href = "/profile"
+    window.location.href = "/predict"
 });

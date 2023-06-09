@@ -16,8 +16,8 @@
         <option value="HTML File" />
         <option value="SCSS File" />
         <option value="CSS File" />
-        <option value="Go File" />
         <option value="JavaScript File" />
+        <option value="Go File" />
       </list>
     </option>
   </component>

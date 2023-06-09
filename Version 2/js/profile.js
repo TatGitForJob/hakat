@@ -21,10 +21,9 @@ iconMenu.forEach(function (item) {
   });
 });
 // Обработчик событий на присваивание даты рейса на период вывода графика
-const date2 = document.getElementById("end-date");
-const date3 = document.getElementById("start-date");
-const flightSelection = document.getElementById("Number");
-
+date2 = document.getElementById("end-date");
+date3 = document.getElementById("start-date");
+flightSelection = document.getElementById("Number");
 function updateChart() {
   let chartExists = Chart.getChart("myChart");
   if (chartExists) {
@@ -72,7 +71,6 @@ function getDates(startDate, endDate) {
   }
   return dates;
 }
-
 // График
 
 const config = {
@@ -80,60 +78,21 @@ const config = {
   data: {
     labels: getDates(startDate, endDate),
     datasets: [
-      // //  График Спроса А
-      // {
-      //   type: "bar",
-      //   label: "Спрос А",
-      //   data: [
-      //     9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3,
-      //     1, 2, 9, 12, 2, 3, 1, 2, 9, 12, 2, 3, 1, 2,
-      //   ],
-      //   pointRadius: 0,
-      //   order: 5,
-      //   stacked: true,
-      //   options: {
-      //     scales: {
-      //       yAxes: [
-      //         {
-      //           ticks: {
-      //             beginAtZero: true,
-      //           },
-      //           stacked: true,
-      //         },
-      //       ],
-      //       xAxes: [
-      //         {
-      //           stacked: true,
-      //         },
-      //       ],
-      //     },
-      //   },
-      // },
-      // //  График Спроса Б
-      // {
-      //   type: "bar",
-      //   label: "Спрос Б",
-      //   data: [
-      //     18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3, 9, 18, 12, 6, 9, 12, 3,
-      //     9, 18, 12, 6, 9, 12, 3, 9,
-      //   ],
-      //   backgroundColor: ["rgba(123, 121, 209, 1)"],
-      //   borderColor: ["rgba(123, 121, 209, 1)"],
-      //   borderWidth: 4,
-      //   fill: false,
-      //   tension: 0.1,
-      //   borderJoinStyle: "bevel",
-      //   order: 1,
-      //   pointRadius: 0,
-      //   stacked: true,
-      // },
-      //  График Ожидаемое бронирование Б
+      //  График спроса в разрезе  Отпуска
       {
-        type: "line",
-        label: "Ожидаемое бронирование Б",
+        type: "bar",
+        label: "Отпуск",
         data: [0],
-        backgroundColor: ["rgba(255, 0, 0, 1)"],
-        borderColor: ["rgba(255, 0, 0, 1)"],
+        pointRadius: 0,
+        order: 5,
+      },
+      //  График спроса в разрезе Командировки
+      {
+        type: "bar",
+        label: "Командировка",
+        data: [0],
+        backgroundColor: ["rgba(123, 121, 209, 1)"],
+        borderColor: ["rgba(123, 121, 209, 1)"],
         borderWidth: 4,
         fill: false,
         tension: 0.1,
@@ -141,19 +100,6 @@ const config = {
         order: 1,
         pointRadius: 0,
       },
-      // //  График Ожидаемое бронирование AБ
-      // {
-      //   type: "scatter",
-      //   label: "Ожидаемое бронирование AБ",
-      //   data: [3, 4, 4, 3, 4, 23, 4, 2, 34],
-      //   backgroundColor: ["rgba(133, 127, 127, 1)"],
-      //   borderColor: ["rgba(133, 127, 127, 1)"],
-      //   borderWidth: 4,
-      //   fill: false,
-      //   tension: 0.1,
-      //   borderJoinStyle: "bevel",
-      //   order: 1,
-      // },
     ],
   },
 
@@ -165,6 +111,7 @@ const config = {
     tension: 0.4,
     borderJoinStyle: "bevel",
     maintainAspectRatio: false,
+    responsive: true,
 
     scales: {
       y: {
@@ -173,12 +120,13 @@ const config = {
     },
     plugins: {
       legend: {
-        display: false,
-        position: "left",
+        display: true,
+        position: "bottom",
+        align: "start",
       },
       title: {
         display: false,
-        text: "Спрос А)",
+        text: "Спрос А",
       },
     },
   },
@@ -207,7 +155,14 @@ number = document.getElementById("Number");
 output = document.getElementById("output");
 direction = document.getElementById("Direction");
 direction.addEventListener("click", () => {
-  askButton.disabled = false;
+	askButton.disabled = false;
+ });
+
+$(document).ready(function () {
+  $("#download-Button").click(function () {
+    // Отправка запроса на сервер
+    window.location.href = "/download_profile";
+  });
 });
 
 askButton.addEventListener("click", function () {
@@ -218,9 +173,7 @@ askButton.addEventListener("click", function () {
     StartDate: data1.value,
     EndDate: data2.value,
   };
-  // Number:
-
-  fetch("/get_season", {
+  fetch("/get_profile", {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -230,11 +183,11 @@ askButton.addEventListener("click", function () {
   })
     .then((response) => {
       response.text().then(function (data) {
-        // output.textContent = JSON.parse(data);
+        //output.textContent = JSON.parse(data);
         // Обновление данных графика
-        myChart.data.datasets[0].data = JSON.parse(data).IntArray;
+        myChart.data.datasets[0].data = JSON.parse(data).OtpuskArray;
+        myChart.data.datasets[1].data = JSON.parse(data).RabotaArray;
         myChart.data.labels = JSON.parse(data).StringArray;
-
         // Отображение графика при нажатие на кнопку
         let visibility = document.getElementById("visibility");
         visibility.classList.remove("visibility");
@@ -246,7 +199,6 @@ askButton.addEventListener("click", function () {
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
         }
-
         myChart.update();
       });
     })
@@ -255,34 +207,3 @@ askButton.addEventListener("click", function () {
     });
 });
 
-// Обработчик событий на первоначальный выбор направления,а после номер рейса
-
-direction.addEventListener("change", () => {
-  flightSelection.innerHTML = "";
-  let data = {
-    Direction: direction.value,
-  };
-  // Number:
-  fetch("/get_season_class", {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      data.forEach((optionValue) => {
-        const optionElement = document.createElement("option");
-        optionElement.value = optionValue;
-        optionElement.text = optionValue;
-        flightSelection.appendChild(optionElement);
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
