@@ -181,6 +181,9 @@ askButton.addEventListener("click", function () {
           visibility.classList.add("visibility");
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
+        } else {
+          const message = document.getElementById("message");
+          message.textContent = "";
         }
 
         myChart.update();

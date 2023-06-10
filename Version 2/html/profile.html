@@ -86,7 +86,7 @@
                 <div class="select-wrapper">
                   <select
                     class="flight-selection__list"
-                    tabindex="3"
+                    tabindex="2"
                     name="flight-selection"
                     id="Number"
                   >
@@ -99,10 +99,10 @@
                   Выберите класс бронирования:
                 </div>
                 <div class="select-wrapper">
-                  <select id="Class" tabindex="2" class="booking-class__list">
+                  <select id="Class" tabindex="3" class="booking-class__list">
                     <optgroup label="Первый класс:">
-                      <option value="F">F — стандартный тариф</option>
-                      <option value="А">А — первый класс со скидкой</option>
+                      <!-- <option value="F">F — стандартный тариф</option>
+                      <option value="А">А — первый класс со скидкой</option> -->
                       <option value="P">
                         P — премиальный первый класс, наиболее комфортный
                       </option>
@@ -122,8 +122,8 @@
                       </option>
                     </optgroup>
                     <optgroup label="Эконом-класс:">
-                      <option value="W">W — эконом «премиум»</option>
-                      <option value="S">S — стандартный эконом</option>
+                      <!-- <option value="W">W — эконом «премиум»</option>
+                      <option value="S">S — стандартный эконом</option> -->
                       <option value="Y">Y — стандартный эконом</option>
                       <option value="B">B — билеты со скидкой</option>
                       <option value="H">H — билеты со скидкой</option>
@@ -156,7 +156,7 @@
                 </div>
                 <label for="start-date">От:</label>
                 <input
-                  tabindex="5"
+                  tabindex="4"
                   class="period__date"
                   type="date"
                   id="start-date"
@@ -168,7 +168,7 @@
 
                 <label for="end-date">До:</label>
                 <input
-                  tabindex="6"
+                  tabindex="5"
                   class="period__date"
                   type="date"
                   id="end-date"
@@ -181,7 +181,7 @@
               <button
                 id="ask-Button"
                 disabled
-                tabindex="3"
+                tabindex="6"
                 class="button"
                 type="submit"
               >
@@ -205,7 +205,7 @@
                   </div>
                 </div>
               </div>
-              <button id="download-Button" class="button" type="submit">
+              <button  tabindex="7" id="download-Button" class="button" type="submit">
                 Скачать
               </button>
             </div>

@@ -155,8 +155,8 @@ number = document.getElementById("Number");
 output = document.getElementById("output");
 direction = document.getElementById("Direction");
 direction.addEventListener("click", () => {
-	askButton.disabled = false;
- });
+  askButton.disabled = false;
+});
 
 $(document).ready(function () {
   $("#download-Button").click(function () {
@@ -198,6 +198,9 @@ askButton.addEventListener("click", function () {
           visibility.classList.add("visibility");
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
+        } else {
+          const message = document.getElementById("message");
+          message.textContent = "";
         }
         myChart.update();
       });
@@ -206,4 +209,3 @@ askButton.addEventListener("click", function () {
       console.log(error);
     });
 });
-

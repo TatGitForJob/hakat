@@ -68,12 +68,18 @@ askButton.addEventListener("click", function () {
           visibility.classList.add("visibility");
           const message = document.getElementById("message");
           message.textContent = "Отсутствуют данные";
+        } else {
+          const message = document.getElementById("message");
+          message.textContent = "";
         }
         const isAllEmpty = myChart.data.datasets[0].data;
         if (isAllEmpty.length === 0) {
           visibility.classList.add("visibility");
           const message = document.getElementById("message");
           message.textContent = "Пустой массив";
+        } else {
+          const message = document.getElementById("message");
+          message.textContent = "";
         }
 
         myChart.update();
